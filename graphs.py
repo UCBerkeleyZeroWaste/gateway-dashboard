@@ -5,8 +5,7 @@ import plotly.graph_objects as go
 # FILE LOCATION
 # ------------------------------------------------------
 
-FILE = r"C:\Users\Audrey\Python Projects\Gateway\Data\Gateway_Graphs.xlsx"
-
+FILE = "Data/Gateway_Graphs.xlsx"
 
 # ------------------------------------------------------
 # CONSTRUCTION MATERIALS DIVERTED
