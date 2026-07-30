@@ -23,15 +23,17 @@ apply_global_style()
 
 # ======================================================
 # CONFIG
-# Same manual/catalog URLs and page numbers used on the Resource
-# Library and Circular Purchasing pages -- keep these in sync if the
-# file locations or manual page layout change.
+# Manual now lives as a Google Slides deck (not a hosted PDF) --
+# MANUAL_URL points to the "present" view, and each page-number
+# variable is that section's actual Slides slide ID rather than a
+# page number. Keep these in sync with Circular Purchasing and
+# Recovery Systems if the deck's slide order ever changes.
 # ======================================================
 
-MANUAL_URL = "app/static/Gateway_Zero_Waste_Operations_Manual.pdf"
+MANUAL_URL = "https://docs.google.com/presentation/d/1j3IVyxEG0aGZXlMy2ydaw6Dh-32Yhf_N/present"
 CATALOG_URL = "https://docs.google.com/spreadsheets/d/1A8FVGTV1aYEEU8FSmAIqXaVte6zZQoTVcCfQZ-hz0IU/edit?gid=1487214576#gid=1487214576"
-MANUAL_PAGE_KITCHEN = 14
-MANUAL_PAGE_CAFE = 17
+MANUAL_PAGE_KITCHEN = "g3f21e15226c_0_146"
+MANUAL_PAGE_CAFE = "g3f21e15226c_0_309"
 
 
 # ======================================================
@@ -576,7 +578,7 @@ st.divider()
 
 # ======================================================
 # WHERE ELSE REUSE SHOWS UP
-# Cards link straight to the source (the manual, via page anchor) --
+# Cards link straight to the source (the manual, via slide anchor) --
 # not to the Resource Library -- so this stays a two-click path, not
 # three. The Resource Library still carries the same entries for
 # anyone who lands there directly via the sidebar/homepage.
@@ -595,7 +597,7 @@ with moment_1:
         title="Kitchen Reusables",
         description="The reuse-first system for Gateway's social kitchens -- reusable dishware, utensils, and cleaning stations.",
         button_label="Read Kitchen Reusables \u2192",
-        button_url=f"{MANUAL_URL}#page={MANUAL_PAGE_KITCHEN}",
+        button_url=f"{MANUAL_URL}#slide=id.{MANUAL_PAGE_KITCHEN}",
         accent="#0B6E4F",
         key="kitchen_reusables_card"
     )
@@ -605,7 +607,7 @@ with moment_2:
         title="Caf\u00e9 Operations",
         description="How Dispatch Goods -- Gateway's reusable takeout system -- works: borrow, use, return, reuse.",
         button_label="Read Caf\u00e9 Operations \u2192",
-        button_url=f"{MANUAL_URL}#page={MANUAL_PAGE_CAFE}",
+        button_url=f"{MANUAL_URL}#slide=id.{MANUAL_PAGE_CAFE}",
         accent="#3F8F43",
         key="cafe_operations_card"
     )
