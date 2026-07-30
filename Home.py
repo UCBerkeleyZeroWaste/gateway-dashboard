@@ -16,8 +16,7 @@ st.set_page_config(
 
 apply_global_style()
 
-MANUAL_URL = "app/static/Gateway_Zero_Waste_Operations_Manual.pdf"
-
+MANUAL_URL = "https://gateway-sustainability.streamlit.app/app/static/Gateway_Zero_Waste_Operations_Manual.pdf"
 
 # ======================================================
 # PAGE INTRODUCTION
