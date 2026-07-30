@@ -20,23 +20,28 @@ apply_global_style()
 # ======================================================
 # CONFIG — edit these
 # ------------------------------------------------------
-# Fill in wherever the files actually end up hosted (relative "app/static/..."
-# path if you set up static serving, or a direct hosted URL). Whatever you
-# use, make sure it serves the raw PDF, not a preview wrapper, or the
-# #page= jump on the task links below won't work.
+# The Manual now lives as a Google Slides deck (not a hosted PDF) --
+# MANUAL_URL points to the "present" view, and each MANUAL_PAGE_*
+# variable is that section's actual Slides slide ID rather than a page
+# number. Keep these in sync with Reuse Systems, Recovery Systems, and
+# Circular Purchasing if the deck's slide order ever changes.
+#
+# CASE_STUDY_URL is unchanged -- it's a separate document that hasn't
+# been moved to Slides, so it's still pointed at the static-hosted PDF
+# path. If that link is unreliable the same way the Manual's was,
+# it likely needs the same static-serving fix (or its own move to
+# Slides/Drive) separately.
 # ======================================================
 
-MANUAL_URL = "app/static/Gateway_Zero_Waste_Operations_Manual.pdf"
+MANUAL_URL = "https://docs.google.com/presentation/d/1j3IVyxEG0aGZXlMy2ydaw6Dh-32Yhf_N/present"
 CASE_STUDY_URL = "app/static/Gateway_Case_Study.pdf"
 CATALOG_URL = "https://docs.google.com/spreadsheets/d/1A8FVGTV1aYEEU8FSmAIqXaVte6zZQoTVcCfQZ-hz0IU/edit?gid=1487214576#gid=1487214576"
 
-# Page numbers inside the Manual PDF that each task card should jump to.
-# (Confirmed against the Manual TOC: Kitchen Reusables p.14, Catering
-# Policies p.15, Event Guidelines p.16, Café Operations p.17.)
-MANUAL_PAGE_KITCHEN = 14
-MANUAL_PAGE_CATERING = 15
-MANUAL_PAGE_EVENTS = 16
-MANUAL_PAGE_CAFE = 17
+# Slide IDs inside the Manual deck that each task card should jump to.
+MANUAL_PAGE_KITCHEN = "g3f21e15226c_0_146"
+MANUAL_PAGE_CATERING = "g3f21e15226c_0_206"
+MANUAL_PAGE_EVENTS = "g3f21e15226c_0_249"
+MANUAL_PAGE_CAFE = "g3f21e15226c_0_309"
 
 
 # ======================================================
@@ -270,7 +275,7 @@ with events:
 
         st.link_button(
             "Jump to This Section →",
-            f"{MANUAL_URL}#page={MANUAL_PAGE_EVENTS}",
+            f"{MANUAL_URL}#slide=id.{MANUAL_PAGE_EVENTS}",
             use_container_width=True
         )
 
@@ -311,7 +316,7 @@ with kitchen:
 
         st.link_button(
             "Jump to This Section →",
-            f"{MANUAL_URL}#page={MANUAL_PAGE_KITCHEN}",
+            f"{MANUAL_URL}#slide=id.{MANUAL_PAGE_KITCHEN}",
             use_container_width=True
         )
 
@@ -356,7 +361,7 @@ with catering:
 
         st.link_button(
             "Jump to This Section →",
-            f"{MANUAL_URL}#page={MANUAL_PAGE_CATERING}",
+            f"{MANUAL_URL}#slide=id.{MANUAL_PAGE_CATERING}",
             use_container_width=True
         )
 
@@ -397,7 +402,7 @@ with cafe:
 
         st.link_button(
             "Jump to This Section →",
-            f"{MANUAL_URL}#page={MANUAL_PAGE_CAFE}",
+            f"{MANUAL_URL}#slide=id.{MANUAL_PAGE_CAFE}",
             use_container_width=True
         )
 
@@ -409,8 +414,9 @@ with cafe:
 st.write("")
 
 st.caption(
-    "Note: task-based links jump to a specific page inside the Manual PDF "
-    "and work in most browsers' built-in PDF viewers. If a link opens the "
-    "file from the beginning instead of jumping to the right page, it "
-    "opened outside the native viewer — the file itself is unaffected."
+    "Note: task-based links jump to a specific slide inside the Manual "
+    "Google Slides deck. If a link opens the deck from the beginning "
+    "instead of jumping to the right slide, the slide ID may be out of "
+    "date -- re-copy it from that slide's address bar in Slides and "
+    "update the corresponding MANUAL_PAGE_* variable above."
 )
