@@ -201,10 +201,7 @@ import plotly.graph_objects as go
 # FILE LOCATION
 # ------------------------------------------------------
 
-TRACKER_FILE = (
-    r"C:\Users\Audrey\Python Projects\Gateway\Data"
-    r"\ZWR_C1_update.xlsx"
-)
+TRACKER_FILE = "Data/ZWR_C1_update.xlsx"
 
 
 # ------------------------------------------------------
