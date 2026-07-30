@@ -4,7 +4,7 @@ import streamlit as st
 from pathlib import Path
 from graphs import diversion_rate_fig, construction_fig, financial_comparison_fig
 
-FILE = r"C:\Users\Audrey\Python Projects\Gateway\Data\Gateway_Graphs.xlsx"
+FILE = "Data\Gateway_Graphs.xlsx"
 
 plastic = pd.read_excel(FILE, sheet_name="Plastic Graph")
 disposables = pd.read_excel(FILE, sheet_name="Disposables Graph")
