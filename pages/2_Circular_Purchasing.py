@@ -160,7 +160,7 @@ def numbered_card(title, items, caption=None, height=None, accent=None, key=None
             st.link_button(link_label, link_url, use_container_width=True)
 
 
-def bordered_link_card(title, description, button_label, button_url=None, button_key=None, accent=None, key=None, height=170):
+def bordered_link_card(title, description, button_label, button_url=None, button_key=None, accent=None, key=None, height=180):
     """
     Same shape as the plain st.container(border=True) info cards used for
     cross-link ("Where Else X Shows Up") sections, but with a colored
