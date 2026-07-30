@@ -54,7 +54,7 @@ with construction:
     with st.container(border=True):
 
         st.image(
-            "Images/Construction.jpg",
+            "images/Construction.jpg",
             use_container_width=True
         )
 
@@ -105,7 +105,7 @@ with purchasing:
     with st.container(border=True):
 
         st.image(
-            "Images/Circular_Purchasing.jpg",
+            "images/Circular_Purchasing.jpg",
             use_container_width=True
         )
 
@@ -156,7 +156,7 @@ with reuse:
     with st.container(border=True):
 
         st.image(
-            "Images/Reuse.jpg",
+            "images/Reuse.jpg",
             use_container_width=True
         )
 
@@ -207,7 +207,7 @@ with recovery:
     with st.container(border=True):
 
         st.image(
-            "Images/Recovery.jpg",
+            "images/Recovery.jpg",
             use_container_width=True
         )
 
@@ -258,7 +258,7 @@ with building:
     with st.container(border=True):
 
         st.image(
-            "Images/Building.jpg",
+            "images/Building.jpg",
             use_container_width=True
         )
 
