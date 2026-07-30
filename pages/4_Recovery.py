@@ -22,13 +22,15 @@ apply_global_style()
 
 # ======================================================
 # CONFIG
-# Same manual link pattern used on Reuse Systems / Circular Purchasing.
-# MANUAL_PAGE_SORTING is a placeholder -- swap in the real page number
-# for the Waste Sorting section once confirmed.
+# Manual now lives as a Google Slides deck (not a hosted PDF) --
+# MANUAL_URL points to the "present" view, and MANUAL_PAGE_SORTING is
+# the Waste Sorting slide's actual Slides slide ID rather than a page
+# number. Keep in sync with Reuse Systems / Circular Purchasing if the
+# deck's slide order ever changes.
 # ======================================================
 
-MANUAL_URL = "app/static/Gateway_Zero_Waste_Operations_Manual.pdf"
-MANUAL_PAGE_SORTING = 1  # TODO: confirm actual page number for Waste Sorting section
+MANUAL_URL = "https://docs.google.com/presentation/d/1j3IVyxEG0aGZXlMy2ydaw6Dh-32Yhf_N/present"
+MANUAL_PAGE_SORTING = "p3"
 
 
 # ======================================================
@@ -417,7 +419,7 @@ render_html(
     """
 )
 
-st.link_button("View Sorting Guide", f"{MANUAL_URL}#page={MANUAL_PAGE_SORTING}", use_container_width=True)
+st.link_button("View Sorting Guide", f"{MANUAL_URL}#slide=id.{MANUAL_PAGE_SORTING}", use_container_width=True)
 
 
 # ======================================================
@@ -428,6 +430,5 @@ st.divider()
 
 st.caption(
     "Gateway opened operationally in 2026. Update this page with real "
-    "weight and diversion data, plus the confirmed sorting page number "
-    "and signage, as they become available."
+    "weight and diversion data, plus signage, as they become available."
 )
