@@ -22,13 +22,16 @@ apply_global_style()
 
 # ======================================================
 # CONFIG
-# Same manual URL/page numbers used on the Resource Library page --
-# keep these in sync if the file location or page layout changes.
+# Manual now lives as a Google Slides deck (not a hosted PDF) --
+# MANUAL_URL points to the "present" view, and each page-number
+# variable is that section's actual Slides slide ID rather than a
+# page number. Keep these in sync with Reuse Systems and Recovery
+# Systems if the deck's slide order ever changes.
 # ======================================================
 
-MANUAL_URL = "app/static/Gateway_Zero_Waste_Operations_Manual.pdf"
-MANUAL_PAGE_CATERING = 15
-MANUAL_PAGE_EVENTS = 16
+MANUAL_URL = "https://docs.google.com/presentation/d/1j3IVyxEG0aGZXlMy2ydaw6Dh-32Yhf_N/present"
+MANUAL_PAGE_CATERING = "g3f21e15226c_0_206"
+MANUAL_PAGE_EVENTS = "g3f21e15226c_0_249"
 
 
 # ======================================================
@@ -439,7 +442,7 @@ st.divider()
 
 # ======================================================
 # WHERE ELSE PURCHASING SHOWS UP
-# Cards link straight to the source (the manual, via page anchor) --
+# Cards link straight to the source (the manual, via slide anchor) --
 # not to the Resource Library -- so this stays a two-click path, not
 # three. The Resource Library still carries the same entries for
 # anyone who lands there directly via the sidebar/homepage.
@@ -462,7 +465,7 @@ with moment_1:
         title="Catering Policies",
         description="Ordering in bulk, requesting reusable serviceware, and minimizing packaging when food is catered.",
         button_label="Read Catering Policies \u2192",
-        button_url=f"{MANUAL_URL}#page={MANUAL_PAGE_CATERING}",
+        button_url=f"{MANUAL_URL}#slide=id.{MANUAL_PAGE_CATERING}",
         accent="#0B6E4F",
         key="catering_policies_card"
     )
@@ -472,7 +475,7 @@ with moment_2:
         title="Event Guidelines",
         description="What to order for giveaways, decor, and signage -- and what to avoid.",
         button_label="Read Event Guidelines \u2192",
-        button_url=f"{MANUAL_URL}#page={MANUAL_PAGE_EVENTS}",
+        button_url=f"{MANUAL_URL}#slide=id.{MANUAL_PAGE_EVENTS}",
         accent="#3F8F43",
         key="event_guidelines_card"
     )
