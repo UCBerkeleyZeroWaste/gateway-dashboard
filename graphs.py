@@ -5,7 +5,7 @@ import plotly.graph_objects as go
 # FILE LOCATION
 # ------------------------------------------------------
 
-FILE = r"C:\Users\Audrey\Python Projects\Gateway\Data\Gateway Graphs.xlsx"
+FILE = r"C:\Users\Audrey\Python Projects\Gateway\Data\Gateway_Graphs.xlsx"
 
 
 # ------------------------------------------------------
@@ -610,7 +610,7 @@ def create_financial_comparison_fig():
     data_path = (
         project_root
         / "Data"
-        / "Cost Benefit Analysis.xlsx"
+        / "Cost_Benefit_Analysis.xlsx"
     )
 
     if not data_path.exists():
