@@ -1,0 +1,9 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Jul 30 22:46:15 2026
+
+@author: Audrey
+"""
+
+__pycache__/
+*.pyc

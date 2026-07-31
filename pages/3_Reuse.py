@@ -6,8 +6,10 @@ from pathlib import Path
 
 import plotly.graph_objects as go
 import streamlit as st
+from streamlit_js_eval import streamlit_js_eval
 
 from styles import apply_global_style
+from paths import FIGURES_DIR, IMAGES_DIR
 
 
 # ======================================================
@@ -24,11 +26,22 @@ apply_global_style()
 
 
 # ======================================================
+# DEVICE DETECTION
+# Same technique as Home.py / Circular Purchasing -- window.parent.
+# innerWidth (not window.innerWidth, which would measure the
+# component's own narrow iframe instead of the real browser window).
+# ======================================================
+
+screen_width = streamlit_js_eval(js_expressions='window.parent.innerWidth', key='WIDTH')
+is_mobile = screen_width is not None and screen_width < 768
+
+
+# ======================================================
 # CONFIG
 # Manual now lives as a Google Slides deck (not a hosted PDF) --
 # MANUAL_URL points to the "present" view, and each page-number
 # variable is that section's actual Slides slide ID rather than a
-# page number. Keep these in sync with Circular Purchasing and
+# page number. Keep in sync with Circular Purchasing and
 # Recovery Systems if the deck's slide order ever changes.
 # ======================================================
 
@@ -77,7 +90,7 @@ render_html(
 )
 
 
-FIGURES_FOLDER = Path("Figures")
+FIGURES_FOLDER = FIGURES_DIR
 
 
 def show_media(filename, instructions, caption=None, title=None, bordered_placeholder=True):
@@ -174,7 +187,9 @@ def bordered_link_card(title, description, button_label, button_url=None, button
     that case) -- useful while a destination isn't hosted/ready yet.
     """
 
-    container_kwargs = {"border": True, "height": height}
+    container_kwargs = {"border": True}
+    if height is not None:
+        container_kwargs["height"] = height
     if key is not None:
         container_kwargs["key"] = key
 
@@ -249,7 +264,7 @@ def step_indicator(steps, active_indices):
 # PAGE HERO
 # ======================================================
 
-HERO_IMAGE_PATH = Path("images/gateway_reuse_hero.jpg")
+HERO_IMAGE_PATH = IMAGES_DIR / "gateway_reuse_hero.jpg"
 
 if HERO_IMAGE_PATH.exists():
     hero_image = get_base64_image(HERO_IMAGE_PATH)
@@ -299,7 +314,7 @@ else:
     st.title("Reuse Systems")
     st.write("Everything you need to keep supplies in circulation was already handed to you at move-in.")
     st.caption(
-        "Add a hero photo at `images/gateway_reuse_hero.jpg` "
+        "Add a hero photo at `Images/gateway_reuse_hero.jpg` "
         "to enable the full banner treatment used on other pages."
     )
 
@@ -308,6 +323,7 @@ st.markdown("<div style='height: 2rem;'></div>", unsafe_allow_html=True)
 
 # ======================================================
 # WHERE REUSE FITS IN
+# Fully visible on both mobile and desktop.
 # ======================================================
 
 st.header("Where Reuse Fits In")
@@ -316,9 +332,9 @@ st.write("Supplies move through Gateway in a sequence, not a straight line to th
 
 
 # ======================================================
-# 3-STEP OVERVIEW -- moved to the very top of the page so
-# the reuse -> refill -> reorder sequence is immediately
-# visible on arrival, before any other content.
+# 3-STEP OVERVIEW -- at the very top of the page so the
+# reuse -> refill -> reorder sequence is immediately visible on
+# arrival, before any other content.
 # ======================================================
 
 step_indicator(["Reuse", "Refill", "Reorder"], active_indices={0, 1})
@@ -331,50 +347,79 @@ st.caption(
 
 # ======================================================
 # WHY THIS MATTERS
+# Shortened on mobile -- desktop keeps the original paragraph exactly
+# as before.
 # ======================================================
 
-st.write(
-    "Reuse works best when it's the easy option, not the responsible one. "
-    "Gateway's Starter Kits and ReUse Stations exist so that keeping "
-    "supplies in circulation takes less effort than ordering something "
-    "new -- no extra trip, no extra decision, just the default path."
-)
+if is_mobile:
+    st.write(
+        "We know it can be difficult to keep track of existing material supply and maintain it. That's why we did it for you."
+    )
+else:
+    st.write(
+        "Reuse works best when it's the clearest option. "
+        "Gateway's Starter Kits and ReUse Stations exist so that keeping "
+        "supplies in circulation takes less effort than ordering something "
+        "new -- no extra trip, no extra decision, just the default path."
+    )
 
 st.divider()
 
 # ======================================================
 # GATEWAY STARTER KITS
+# Fully visible on both mobile and desktop -- metric grid narrows from
+# 5-across to 2-across on mobile so labels stay readable, and the
+# writing-system card + chart stack instead of sitting side by side.
 # ======================================================
 
 st.header("Gateway Starter Kits")
 
 st.write("Your introduction to Gateway's Circular Office Supply System -- provided to every department at move-in.")
 
-kit_metric_1, kit_metric_2, kit_metric_3, kit_metric_4, kit_metric_5 = st.columns(5)
+STARTER_KIT_METRICS = [
+    ("1,308", "B2P Refillable Pens", "Planned starter kit quantity"),
+    ("100", "Refillable Whiteboard Markers", "Planned starter kit quantity"),
+   
+    ("50+", "Binders", "Wide assortment"),
+    ("Other Office Supplies", "Surplus Stock", "File organizers, Avery labels, staples, paper clips, accordion folders"),
+]
 
-with kit_metric_1:
-    compact_metric(value="1,308", label="B2P Refillable Pens", note="Planned starter kit quantity")
-
-with kit_metric_2:
-    compact_metric(value="100", label="Refillable Whiteboard Markers", note="Planned starter kit quantity")
-
-with kit_metric_3:
-    compact_metric(value="~55,000", label="Paper Clips", note="Estimated from a ~2 ft\u00b3 bulk container")
-
-with kit_metric_4:
-    compact_metric(value="50+", label="Binders", note="Condition varies")
-
-with kit_metric_5:
-    compact_metric(value="Multiple boxes", label="Organizational Supplies", note="File organizers, Avery labels, staples, accordion folders")
+if is_mobile:
+    # st.columns collapses to a single column below Streamlit's own
+    # internal width breakpoint, regardless of how many columns are
+    # requested -- so a real 2-across grid on a narrow phone has to be
+    # built with raw HTML/CSS instead of st.columns + st.metric.
+    metric_cells = "".join(
+        f"""
+        <div style="background:var(--surface-1, #F3F5F2);border-radius:0.5rem;padding:0.7rem 0.8rem;">
+            <div style="font-size:1.15rem;font-weight:700;color:#343743;line-height:1.2;">{value}</div>
+            <div style="font-size:0.78rem;font-weight:600;color:#343743;margin-top:0.15rem;">{label}</div>
+            <div style="font-size:0.72rem;color:#747B8D;margin-top:0.1rem;">{note}</div>
+        </div>
+        """
+        for value, label, note in STARTER_KIT_METRICS
+    )
+    render_html(
+        f"""
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin:0.5rem 0 1rem 0;">
+            {metric_cells}
+        </div>
+        """
+    )
+else:
+    kit_metric_cols = st.columns(4)
+    for i, (value, label, note) in enumerate(STARTER_KIT_METRICS):
+        with kit_metric_cols[i]:
+            compact_metric(value=value, label=label, note=note)
 
 # ------------------------------------------------------
-# Refillable Writing System (1/3 width) next to the
-# plastic prevented/recovered chart (2/3 width), so the
-# card and its supporting data sit side by side instead
-# of stacked.
+# Refillable Writing System card + plastic prevented/recovered
+# chart -- side by side on desktop, stacked on mobile.
 # ------------------------------------------------------
 
-writing_col, chart_col = st.columns([1, 2], gap="large")
+writing_chart_cols = st.columns(1 if is_mobile else [1, 2], gap="large")
+writing_col = writing_chart_cols[0]
+chart_col = writing_chart_cols[0] if is_mobile else writing_chart_cols[1]
 
 with writing_col:
     bullet_card(
@@ -458,20 +503,17 @@ st.caption(
 
 # ======================================================
 # REUSE STATIONS
+# Fully visible on both mobile and desktop -- photo + cards stack
+# instead of sitting side by side.
 # ======================================================
 
 st.header("ReUse Stations")
 
 st.write("Shared refill and redistribution infrastructure, found on every floor.")
 
-# ------------------------------------------------------
-# Photo (portrait -- crop to 2:3) next to the Refill Hub
-# and Shared Stock cards stacked on top of each other,
-# rather than a full-width photo above two side-by-side
-# cards.
-# ------------------------------------------------------
-
-station_photo_col, station_cards_col = st.columns(2, gap="large")
+station_cols = st.columns(1 if is_mobile else 2, gap="large")
+station_photo_col = station_cols[0]
+station_cards_col = station_cols[0] if is_mobile else station_cols[1]
 
 with station_photo_col:
     show_media(
@@ -534,6 +576,8 @@ st.divider()
 
 # ======================================================
 # OUR REUSABLES
+# Fully visible on both mobile and desktop -- photo + card stack
+# instead of sitting side by side.
 # ======================================================
 
 st.header("Our Reusables")
@@ -544,7 +588,9 @@ st.write(
     "and used again instead of thrown away after one round."
 )
 
-reusables_photo_col, reusables_list_col = st.columns(2, gap="large")
+reusables_cols = st.columns(1 if is_mobile else 2, gap="large")
+reusables_photo_col = reusables_cols[0]
+reusables_list_col = reusables_cols[0] if is_mobile else reusables_cols[1]
 
 with reusables_photo_col:
     show_media(
@@ -580,10 +626,10 @@ st.divider()
 
 # ======================================================
 # WHERE ELSE REUSE SHOWS UP
-# Cards link straight to the source (the manual, via slide anchor) --
-# not to the Resource Library -- so this stays a two-click path, not
-# three. The Resource Library still carries the same entries for
-# anyone who lands there directly via the sidebar/homepage.
+# Fully visible on both mobile and desktop -- cards stack instead of
+# sitting side by side. Cards link straight to the source (the
+# manual, via slide anchor) -- not to the Resource Library -- so this
+# stays a two-click path, not three.
 # ======================================================
 
 st.header("Where Else Reuse Shows Up")
@@ -592,7 +638,9 @@ st.write(
     "Reuse extends into kitchens and caf\u00e9s too."
 )
 
-moment_1, moment_2 = st.columns(2, gap="large")
+reuse_moment_cols = st.columns(1 if is_mobile else 2, gap="large")
+moment_1 = reuse_moment_cols[0]
+moment_2 = reuse_moment_cols[0] if is_mobile else reuse_moment_cols[1]
 
 with moment_1:
     bordered_link_card(
@@ -617,15 +665,13 @@ with moment_2:
 
 # ======================================================
 # PROJECT RESOURCES
-# Removed entirely on this page, same reasoning as Circular
-# Purchasing. Catalog already has a specific, working callout above
-# ("check what's stocked") plus a reorder link under Our Reusables --
-# a generic footer card added nothing. Nobody arriving here needs the
-# full manual either: Starter Kits and ReUse Stations content is
-# already written directly on this page, and Kitchen Reusables /
-# Caf\u00e9 Operations now link straight to their specific manual pages.
-# The full manual stays reachable from the homepage and sidebar for
-# anyone who wants the whole document.
+# Removed entirely on this page, both mobile and desktop, same
+# reasoning as Circular Purchasing. Catalog already has a specific,
+# working callout above ("check what's stocked") plus a reorder link
+# under Our Reusables. Kitchen Reusables / Caf\u00e9 Operations now
+# link straight to their specific manual pages. The full manual stays
+# reachable from the homepage and sidebar for anyone who wants the
+# whole document.
 # ======================================================
 
 

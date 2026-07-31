@@ -5,8 +5,10 @@ import textwrap
 from pathlib import Path
 
 import streamlit as st
+from streamlit_js_eval import streamlit_js_eval
 
 from styles import apply_global_style
+from paths import FIGURES_DIR, IMAGES_DIR
 
 
 # ======================================================
@@ -20,6 +22,18 @@ st.set_page_config(
 )
 
 apply_global_style()
+
+
+# ======================================================
+# DEVICE DETECTION
+# Same technique as Home.py / Circular Purchasing / Reuse Systems --
+# window.parent.innerWidth (not window.innerWidth, which would measure
+# the component's own narrow iframe instead of the real browser
+# window).
+# ======================================================
+
+screen_width = streamlit_js_eval(js_expressions='window.parent.innerWidth', key='WIDTH')
+is_mobile = screen_width is not None and screen_width < 768
 
 
 # ======================================================
@@ -71,7 +85,7 @@ render_html(
 )
 
 
-FIGURES_FOLDER = Path("Figures")
+FIGURES_FOLDER = FIGURES_DIR
 
 
 def show_media(filename, instructions, caption=None, bordered_placeholder=True):
@@ -157,7 +171,9 @@ def pathway_card(icon, title, tagline, chips, outcome, accent, key, photo_filena
     optional small reference photo, accepted items as pill chips, and a
     single short outcome line combining destination + benefit. Same
     colored-border technique (div.st-key-{key}) as the rest of the site.
-    Fixed height so all four cards line up.
+    Fixed height so all cards in a row line up -- height is only passed
+    on desktop (4-across); on mobile, cards stack full-width and don't
+    need to match each other's height.
     """
 
     render_html(f"""
@@ -177,7 +193,11 @@ def pathway_card(icon, title, tagline, chips, outcome, accent, key, photo_filena
         for c in chips
     )
 
-    with st.container(border=True, height=height, key=key):
+    container_kwargs = {"border": True, "key": key}
+    if height is not None:
+        container_kwargs["height"] = height
+
+    with st.container(**container_kwargs):
         render_html(f"""
         <div style="text-align:center;">
             <div style="width:54px;height:54px;border-radius:50%;background:{accent}17;
@@ -208,7 +228,7 @@ def pathway_card(icon, title, tagline, chips, outcome, accent, key, photo_filena
 # PAGE HERO
 # ======================================================
 
-HERO_IMAGE_PATH = Path("images/gateway_recovery_hero.jpg")
+HERO_IMAGE_PATH = IMAGES_DIR / "gateway_recovery_hero.jpg"
 
 if HERO_IMAGE_PATH.exists():
     hero_image = get_base64_image(HERO_IMAGE_PATH)
@@ -258,7 +278,7 @@ else:
     st.title("Recovery Systems")
     st.write("Some materials can't be reused. We designed pathways so they still avoid landfill.")
     st.caption(
-        "Add a hero photo at `images/gateway_recovery_hero.jpg` "
+        "Add a hero photo at `Images/gateway_recovery_hero.jpg` "
         "to enable the full banner treatment used on other pages."
     )
 
@@ -267,27 +287,39 @@ st.markdown("<div style='height: 1.6rem;'></div>", unsafe_allow_html=True)
 
 # ======================================================
 # WHERE RECOVERY FITS IN
+# Shortened on mobile -- desktop keeps the original paragraph exactly
+# as before.
 # ======================================================
 
-st.write(
-    "Reduce, reuse, and refill handle most of what moves through Gateway. "
-    "Recovery is the last stop for what's left over -- the batteries, "
-    "electronics, hard-to-recycle plastics, and food scraps that can't "
-    "go through that loop again. Each one still has a specific, "
-    "designed path out of the building that isn't the landfill."
-)
+if is_mobile:
+    st.write(
+        "Recovery is the last stop for what can't be reused -- "
+        "batteries, e-waste, hard-to-recycle plastics, food scraps. "
+        "Each one still has a designed path out of the building that "
+        "isn't the landfill."
+    )
+else:
+    st.write(
+        "Reduce, reuse, and refill handle most of what moves through Gateway. "
+        "Recovery is the last stop for what's left over -- the batteries, "
+        "electronics, hard-to-recycle plastics, and food scraps that can't "
+        "go through that loop again. Each one still has a specific, "
+        "designed path out of the building that isn't the landfill."
+    )
 
 st.divider()
 
 
 # ======================================================
 # RECOVERY PATHWAYS
-# Four cards in a single row -- shorter, chip-based content means they
-# no longer need the 2x2 stack to stay readable.
+# Four cards across on desktop; stacked full-width on mobile. Asking
+# st.columns for exactly 1 column on mobile matches Streamlit's own
+# collapse-to-1 breakpoint behavior, so there's no conflict here the
+# way there was with the 2-across metrics grid on Reuse Systems.
 # ======================================================
 
 st.header("Recovery Pathways")
-st.write("Four streams, four bins. Here's what happens after you drop something in.")
+st.write("Four streams, four ways to send materials where they belong.")
 
 PATHWAYS = [
     {
@@ -315,13 +347,13 @@ PATHWAYS = [
     {
         "icon": "\U0001F4BB",
         "title": "E-Waste",
-        "tagline": "Bring old electronics to the e-waste collection point.",
+        "tagline": "Hold onto old electronics until you have a small batch, then email specora@berkeley.edu to arrange pickup.",
         "chips": ["Cables", "Chargers", "Small electronics", "Old devices"],
         "outcome": "Certified e-waste recycler \u2014 recovers metals, keeps lead & mercury out of landfill",
         "accent": "#3F8F43",
         "key": "ewaste_pathway_card",
         "photo_filename": "gateway_ewaste_bin.jpg",
-        "photo_label": "E-waste collection point"
+        "photo_label": "E-waste ready for pickup"
     },
     {
         "icon": "\U0001F331",
@@ -334,25 +366,25 @@ PATHWAYS = [
     },
 ]
 
-pathway_cols = st.columns(4, gap="medium")
+pathway_cols = st.columns(1 if is_mobile else 4, gap="medium")
 
-for col, pathway in zip(pathway_cols, PATHWAYS):
-    with col:
-        pathway_card(**pathway)
+for i, pathway in enumerate(PATHWAYS):
+    with pathway_cols[i % len(pathway_cols)]:
+        pathway_card(height=None if is_mobile else 450, **pathway)
 
 st.divider()
 
 
 # ======================================================
 # MEET THE MILL
-# The one pathway with a real, distinctive piece of hardware behind
-# it -- worth its own moment instead of a cramped photo inside the
-# narrow Compost card above.
+# Photo + text side by side on desktop, stacked on mobile.
 # ======================================================
 
 st.header("Meet the Mill")
 
-mill_photo_col, mill_text_col = st.columns([1, 1], gap="large")
+mill_cols = st.columns(1 if is_mobile else 2, gap="large")
+mill_photo_col = mill_cols[0]
+mill_text_col = mill_cols[0] if is_mobile else mill_cols[1]
 
 with mill_photo_col:
     show_media(
@@ -378,16 +410,20 @@ st.divider()
 
 # ======================================================
 # RECOVERY IN NUMBERS
+# Fully visible on both mobile and desktop -- stacks instead of
+# sitting side by side.
 # ======================================================
 
 st.header("Recovery in Numbers")
 
-num_col1, num_col2 = st.columns(2, gap="large")
+num_cols = st.columns(1 if is_mobile else 2, gap="large")
+weight_col = num_cols[0]
+diversion_col = num_cols[0] if is_mobile else num_cols[1]
 
-with num_col1:
+with weight_col:
     metric_placeholder(title="Weight Collected", key="weight_collected_placeholder")
 
-with num_col2:
+with diversion_col:
     metric_placeholder(title="Diversion Over Time", key="diversion_over_time_placeholder")
 
 st.divider()
@@ -395,6 +431,7 @@ st.divider()
 
 # ======================================================
 # RESOURCES
+# Fully visible on both mobile and desktop.
 # ======================================================
 
 st.header("Resources")

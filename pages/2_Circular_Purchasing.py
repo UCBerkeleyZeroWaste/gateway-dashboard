@@ -5,8 +5,10 @@ import textwrap
 from pathlib import Path
 
 import streamlit as st
+from streamlit_js_eval import streamlit_js_eval
 
 from styles import apply_global_style
+from paths import FIGURES_DIR, IMAGES_DIR
 
 
 # ======================================================
@@ -20,6 +22,17 @@ st.set_page_config(
 )
 
 apply_global_style()
+
+
+# ======================================================
+# DEVICE DETECTION
+# Same technique as Home.py -- window.parent.innerWidth (not
+# window.innerWidth, which would measure the component's own narrow
+# iframe instead of the real browser window).
+# ======================================================
+
+screen_width = streamlit_js_eval(js_expressions='window.parent.innerWidth', key='WIDTH')
+is_mobile = screen_width is not None and screen_width < 768
 
 
 # ======================================================
@@ -75,7 +88,7 @@ render_html(
 )
 
 
-FIGURES_FOLDER = Path("Figures")
+FIGURES_FOLDER = FIGURES_DIR
 
 
 def show_media(filename, instructions, caption=None, title=None, bordered_placeholder=True):
@@ -173,7 +186,9 @@ def bordered_link_card(title, description, button_label, button_url=None, button
     that case) -- useful while a destination isn't hosted/ready yet.
     """
 
-    container_kwargs = {"border": True, "height": height}
+    container_kwargs = {"border": True}
+    if height is not None:
+        container_kwargs["height"] = height
     if key is not None:
         container_kwargs["key"] = key
 
@@ -250,7 +265,7 @@ def step_indicator(steps, active_indices):
 # PAGE HERO
 # ======================================================
 
-HERO_IMAGE_PATH = Path("images/gateway_circular_purchasing_hero.jpg")
+HERO_IMAGE_PATH = IMAGES_DIR / "gateway_circular_purchasing_hero.jpg"
 
 if HERO_IMAGE_PATH.exists():
     hero_image = get_base64_image(HERO_IMAGE_PATH)
@@ -300,23 +315,31 @@ else:
     st.title("Circular Purchasing")
     st.write("Check first. Refill first. Order last -- and make it count.")
     st.caption(
-        "Add a hero photo at `images/gateway_circular_purchasing_hero.jpg` "
+        "Add a hero photo at `Images/gateway_circular_purchasing_hero.jpg` "
         "to enable the full banner treatment used on other pages."
     )
 
-st.markdown("<div style=\'height: 2rem;\'></div>", unsafe_allow_html=True)
+st.markdown("<div style='height: 2rem;'></div>", unsafe_allow_html=True)
 
 # ======================================================
 # WHY THIS MATTERS
+# Shortened on mobile -- desktop keeps the full paragraph and banner
+# exactly as before. This is real device detection, not a collapsed
+# expander, so nothing is hidden behind an extra tap on desktop.
 # ======================================================
 
-st.markdown(
-    "Purchasing is where a lot of waste gets decided before it ever exists. "
-    "Packaging, delivery trips, and duplicate orders all get locked in the "
-    "moment something is bought. What departments choose to order is one of "
-    "the few places that number gets easier or harder before anything "
-    "reaches a bin."
-)
+if is_mobile:
+    st.markdown(
+        "Purchasing is where a lot of waste gets decided before it ever exists."
+    )
+else:
+    st.markdown(
+        "Purchasing is where a lot of waste gets decided before it ever exists. "
+        "Packaging, delivery trips, and duplicate orders all get locked in the "
+        "moment something is bought. What departments choose to order is one of "
+        "the few places that number gets easier or harder before anything "
+        "reaches a bin."
+    )
 
 render_html(
     """
@@ -344,7 +367,7 @@ render_html(
             font-size: 1rem;
             line-height: 1.5;
         ">
-            is Gateway\'s landfill diversion target. Every order placed on this
+            is Gateway's landfill diversion target. Every order placed on this
             page either moves the building toward it or away from it.
         </div>
     </div>
@@ -354,6 +377,8 @@ render_html(
 
 # ======================================================
 # WHERE PURCHASING FITS IN
+# Fully visible on both mobile and desktop -- this is task content,
+# not background reading.
 # ======================================================
 
 st.header("Where Purchasing Fits In")
@@ -366,7 +391,7 @@ st.write(
 step_indicator(["Reuse", "Refill", "Reorder"], active_indices={2})
 
 st.caption(
-    "You are here. Steps 1 & 2 -- reusing starter supplies and refilling "
+    "You are here. Steps 1 & 2 -- reusing provided starter supplies and refilling "
     "them at the Refill Hub -- are covered on the Reuse Systems page."
 )
 
@@ -375,7 +400,7 @@ numbered_card(
     items=[
         "Check the ReUse Stations, routine supplies are often already there.",
         "Try the Refill Hub before buying something new.",
-        "Still need it? That\'s what the rest of this page covers."
+        "Still need it? That's what the rest of this page covers."
     ]
 )
 
@@ -383,13 +408,17 @@ st.divider()
 
 # ======================================================
 # PURCHASING PATHWAYS
+# One column on mobile (stacked), two on desktop -- fully visible on
+# both either way.
 # ======================================================
 
 st.header("Purchasing Pathways")
 
 st.write("Two ways to order, depending on what you need.")
 
-stockroom_col, bearbuy_col = st.columns(2, gap="large")
+pathway_cols = st.columns(1 if is_mobile else 2, gap="large")
+stockroom_col = pathway_cols[0]
+bearbuy_col = pathway_cols[0] if is_mobile else pathway_cols[1]
 
 with stockroom_col:
     numbered_card(
@@ -401,10 +430,10 @@ with stockroom_col:
         caption=(
             "The Stockroom is the Avantor Storeroom in Stanley Hall, open to "
             "all campus research labs. It also carries office supplies "
-            "through Gateway\'s partnership with Blaisdell\'s, including EPP "
+            "through Gateway's partnership with Blaisdell's, including EPP "
             "options at a bulk discount."
         ),
-        height=280,
+        height=None if is_mobile else 280,
         accent="#0B6E4F",
         key="stockroom_card",
         link_label="Email the Storeroom",
@@ -415,11 +444,11 @@ with bearbuy_col:
     numbered_card(
         title="Specialty Purchasing -- BearBUY",
         items=[
-            "Log into BearBUY, UC Berkeley\'s procurement marketplace.",
-            "Look for Blaisdell\'s storefront first -- Gateway\'s preferred vendor, with EPP items filterable."
+            "Log into BearBUY, UC Berkeley's procurement marketplace.",
+            "Look for Blaisdell's storefront first -- Gateway's preferred vendor, with EPP items filterable."
         ],
-        caption="Use this only when the Stockroom doesn\'t carry what you need.",
-        height=280,
+        caption="Use this only when the Stockroom doesn't carry what you need.",
+        height=None if is_mobile else 280,
         accent="#3F8F43",
         key="bearbuy_card",
         link_label="Go to BearBUY",
@@ -430,8 +459,8 @@ with st.container(border=True):
     st.subheader("Not Sure Which One?")
     st.write(
         "The Gateway Approved Products Catalog shows which pathway applies "
-        "to a specific item, along with vendor and catalog numbers. It\'s "
-        "also kept current with what\'s actually stocked in the ReUse "
+        "to a specific item, along with vendor and catalog numbers. It's "
+        "also kept current with what's actually stocked in the ReUse "
         "Stations, so it doubles as a quick way to check availability "
         "before you buy anything at all."
     )
@@ -444,10 +473,11 @@ st.divider()
 
 # ======================================================
 # WHERE ELSE PURCHASING SHOWS UP
+# Fully visible on both mobile and desktop -- this is the "looks like
+# this / not this" urgency section, task-relevant, not background.
 # Cards link straight to the source (the manual, via slide anchor) --
 # not to the Resource Library -- so this stays a two-click path, not
-# three. The Resource Library still carries the same entries for
-# anyone who lands there directly via the sidebar/homepage.
+# three.
 # ======================================================
 
 st.header("Where Else Purchasing Shows Up")
@@ -455,12 +485,14 @@ st.header("Where Else Purchasing Shows Up")
 st.write(
     "Catering and events are where good purchasing habits are easiest to "
     "abandon, a single delivery of disposable cups and trays can undo a "
-    "whole department\'s worth of careful ordering."
+    "whole department's worth of careful ordering."
 )
 
 
 
-moment_1, moment_2 = st.columns(2, gap="large")
+moment_cols = st.columns(1 if is_mobile else 2, gap="large")
+moment_1 = moment_cols[0]
+moment_2 = moment_cols[0] if is_mobile else moment_cols[1]
 
 with moment_1:
     bordered_link_card(
@@ -469,7 +501,8 @@ with moment_1:
         button_label="Read Catering Policies \u2192",
         button_url=f"{MANUAL_URL}#slide=id.{MANUAL_PAGE_CATERING}",
         accent="#0B6E4F",
-        key="catering_policies_card"
+        key="catering_policies_card",
+        height=None if is_mobile else 180
     )
 
 with moment_2:
@@ -479,7 +512,8 @@ with moment_2:
         button_label="Read Event Guidelines \u2192",
         button_url=f"{MANUAL_URL}#slide=id.{MANUAL_PAGE_EVENTS}",
         accent="#3F8F43",
-        key="event_guidelines_card"
+        key="event_guidelines_card",
+        height=None if is_mobile else 180
     )
 
 
@@ -503,7 +537,7 @@ render_html(
                 \u2715 Not This
             </div>
             <ul style="margin:0;padding-left:1.2rem;font-size:0.88rem;color:#343743;line-height:1.55;">
-                <li>Single-use plastic cups, plates, utensils, and trays piling up in the bin before the event\'s even over.</li>
+                <li>Single-use plastic cups, plates, utensils, and trays piling up in the bin before the event's even over.</li>
             </ul>
         </div>
     </div>
@@ -514,47 +548,65 @@ st.divider()
 
 # ======================================================
 # HOW WE ACHIEVE CIRCULAR PURCHASING
+# Shortened to a single combined list on mobile -- desktop keeps the
+# original two-column layout exactly as before.
 # ======================================================
 
 st.header("How We Achieve Circular Purchasing")
 
-st.write(
-    "These are standard TRUE Zero Waste purchasing practices -- not unique "
-    "to Gateway, but core to how the whole program works."
-)
-
-standard_1, standard_2 = st.columns(2, gap="large")
-
-with standard_1:
-    bullet_card(
-        title="Recycled Content",
-        bullets=[
-            "Office paper: \u226530% post-consumer recycled content.",
-            "Janitorial paper products (towels, tissue): \u226520% post-consumer recycled content.",
-            "Sustainably produced paper and wood products preferred."
-        ]
+if is_mobile:
+    st.write(
+        "Standard TRUE Zero Waste purchasing practices used across Gateway."
     )
-
-with standard_2:
     bullet_card(
         title="What We Prioritize",
         bullets=[
             "Durable and reusable goods over disposable ones.",
+            "Office paper: \u226530% post-consumer recycled content.",
+            "Janitorial paper: \u226520% post-consumer recycled content.",
             "Used, refurbished, or remanufactured goods when available.",
             "Approved vendors only."
         ]
     )
+else:
+    st.write(
+        "These are standard TRUE Zero Waste purchasing practices -- not unique "
+        "to Gateway, but core to how the whole program works."
+    )
+
+    standard_1, standard_2 = st.columns(2, gap="large")
+
+    with standard_1:
+        bullet_card(
+            title="Recycled Content",
+            bullets=[
+                "Office paper: \u226530% post-consumer recycled content.",
+                "Janitorial paper products (towels, tissue): \u226520% post-consumer recycled content.",
+                "Sustainably produced paper and wood products preferred."
+            ]
+        )
+
+    with standard_2:
+        bullet_card(
+            title="What We Prioritize",
+            bullets=[
+                "Durable and reusable goods over disposable ones.",
+                "Used, refurbished, or remanufactured goods when available.",
+                "Approved vendors only."
+            ]
+        )
 
 st.divider()
 
 # ======================================================
 # Have any questions or product requests?
+# Fully visible on both mobile and desktop.
 # ======================================================
 
-st.header("Can\'t Find What You Need, or Just Have a Question?")
+st.header("Can't Find What You Need, or Just Have a Question?")
 
 with st.container(border=True):
-    st.write("Submit a request for a product we don\'t carry, or ask us anything about how Circular Purchasing works and we will follow up.")
+    st.write("Submit a request for a product we don't carry, or ask us anything about how Circular Purchasing works and we will follow up.")
     st.link_button(
         "Ask or Request",
         "https://docs.google.com/forms/d/e/1FAIpQLSd6228-0VySoiQXMYRLDfUz7obqbrjYKIy6qmNrcVp3NFGGow/viewform?usp=publish-editor",
@@ -564,12 +616,13 @@ with st.container(border=True):
 
 # ======================================================
 # PROJECT RESOURCES
-# Removed entirely on this page. The Catalog is already covered above
-# by "Not Sure Which One?" and the "Looks Like This" checklist, and
-# nobody arriving here mid-purchasing-task needs the full manual --
-# Pathways, Catalog, and Catering/Event Guidelines already cover what
-# this page is for. The full manual stays reachable from the homepage
-# and sidebar for anyone who actually wants the whole document.
+# Removed entirely on this page, both mobile and desktop. The Catalog
+# is already covered above by "Not Sure Which One?" and the "Looks
+# Like This" checklist, and nobody arriving here mid-purchasing-task
+# needs the full manual -- Pathways, Catalog, and Catering/Event
+# Guidelines already cover what this page is for. The full manual
+# stays reachable from the homepage and sidebar for anyone who
+# actually wants the whole document.
 # ======================================================
 
 # ======================================================
@@ -580,6 +633,6 @@ st.divider()
 
 st.caption(
     "Gateway opened operationally in 2026, so purchasing figures reflect "
-    "program design rather than measured performance data. Update this "
-    "page with real purchasing metrics as they become available."
+    "program design rather than measured performance data. This "
+    "page will be updated with real purchasing metrics as they become available."
 )
