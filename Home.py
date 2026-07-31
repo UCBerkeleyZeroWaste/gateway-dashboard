@@ -1,6 +1,7 @@
 import streamlit as st
 
 from styles import apply_global_style
+from paths import IMAGES_DIR
 
 
 # ======================================================
@@ -16,7 +17,9 @@ st.set_page_config(
 
 apply_global_style()
 
-MANUAL_URL = "app/static/Gateway_Zero_Waste_Operations_Manual.pdf"
+# Manual now lives as a Google Slides deck -- same URL used on
+# 6_Resource_Library.py. Keep these in sync if the deck ever moves.
+MANUAL_URL = "https://docs.google.com/presentation/d/1j3IVyxEG0aGZXlMy2ydaw6Dh-32Yhf_N/present"
 
 
 # ======================================================
@@ -31,7 +34,7 @@ st.write(
 )
 
 
-    
+
 # ======================================================
 # EXPLORE GATEWAY'S SYSTEMS
 # ======================================================
@@ -54,7 +57,7 @@ with construction:
     with st.container(border=True):
 
         st.image(
-            "Images/Construction.jpg",
+            str(IMAGES_DIR / "Construction.jpg"),
             use_container_width=True
         )
 
@@ -105,7 +108,7 @@ with purchasing:
     with st.container(border=True):
 
         st.image(
-            "Images/Circular_Purchasing.jpg",
+            str(IMAGES_DIR / "Circular_Purchasing.jpg"),
             use_container_width=True
         )
 
@@ -156,7 +159,7 @@ with reuse:
     with st.container(border=True):
 
         st.image(
-            "Images/Reuse.jpg",
+            str(IMAGES_DIR / "Reuse.jpg"),
             use_container_width=True
         )
 
@@ -207,7 +210,7 @@ with recovery:
     with st.container(border=True):
 
         st.image(
-            "Images/Recovery.jpg",
+            str(IMAGES_DIR / "Recovery.jpg"),
             use_container_width=True
         )
 
@@ -258,7 +261,7 @@ with building:
     with st.container(border=True):
 
         st.image(
-            "Images/Building.jpg",
+            str(IMAGES_DIR / "Building.jpg"),
             use_container_width=True
         )
 
@@ -400,7 +403,7 @@ with manual:
             """,
             unsafe_allow_html=True
         )
-        
+
         st.link_button(
             "Open Manual →",
             MANUAL_URL,
@@ -452,13 +455,15 @@ with case_study:
             unsafe_allow_html=True
         )
 
+        # The case study itself lives on the Resource Library page
+        # (it's a Google Slides deck, not a page file, so it can't be
+        # a direct st.switch_page target).
         if st.button(
             "Read Case Study →",
             key="case_study_resource",
             use_container_width=True
         ):
-            # Update this path when the case study page is ready.
-            st.switch_page("pages/7_Gateway_Case_Study.pdf")
+            st.switch_page("pages/6_Resource_Library.py")
 
 
 # ------------------------------------------------------
