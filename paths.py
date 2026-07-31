@@ -8,5 +8,5 @@ ROOT_DIR = Path(__file__).resolve().parent
 
 DATA_DIR = ROOT_DIR / "Data"
 FIGURES_DIR = ROOT_DIR / "Figures"
-IMAGES_DIR = ROOT_DIR / "Images"
+IMAGES_DIR = ROOT_DIR / "images"
 STATIC_DIR = ROOT_DIR / "static"
