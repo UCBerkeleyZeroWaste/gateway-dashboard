@@ -1,3 +1,5 @@
+# pages/6_Resource_Library.py
+
 import streamlit as st
 
 from styles import apply_global_style
