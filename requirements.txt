@@ -1,3 +1,5 @@
 streamlit
 plotly
 streamlit-js-eval
+pandas
+openpyxl
