@@ -1,5 +1,5 @@
 import streamlit as st
-import streamlit.components.v1 as components
+from streamlit_js_eval import streamlit_js_eval
 
 
 def apply_global_style():
@@ -60,16 +60,18 @@ def _apply_sidebar_menu_label():
     # the icon by its actual text, walks up to its real <button>
     # ancestor, and adds a "Menu" label + green styling directly.
     #
-    # Runs via components.html (not st.markdown) because it needs to
-    # execute JS, and reaches into window.parent.document the same way
-    # streamlit_js_eval does elsewhere in this app -- same-origin, so
-    # no cross-frame restriction. A MutationObserver re-applies the
-    # label whenever Streamlit re-renders the toolbar (e.g. sidebar
-    # collapse/expand), since the button gets removed and recreated
-    # rather than just hidden.
-    components.html(
-        """
-        <script>
+    # Runs via streamlit_js_eval rather than components.html -- the two
+    # create iframes with different sandbox permissions, and on
+    # Streamlit Community Cloud the components.html version silently
+    # failed to reach window.parent.document even though this exact
+    # access pattern already works via streamlit_js_eval elsewhere in
+    # this app (get_is_mobile in device.py). Reusing the mechanism
+    # that's proven to work in production instead of the one that
+    # isn't. A MutationObserver re-applies the label whenever Streamlit
+    # re-renders the toolbar (e.g. sidebar collapse/expand), since the
+    # button gets removed and recreated rather than just hidden.
+    streamlit_js_eval(
+        js_expressions="""
         (function() {
             function labelSidebarToggle() {
                 const doc = window.parent.document;
@@ -105,8 +107,9 @@ def _apply_sidebar_menu_label():
                 childList: true,
                 subtree: true
             });
-        })();
-        </script>
+
+            return true;
+        })()
         """,
-        height=0
+        key="SIDEBAR_MENU_LABEL"
     )
