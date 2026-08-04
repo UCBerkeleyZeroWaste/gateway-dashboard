@@ -1,8 +1,8 @@
 import streamlit as st
-from streamlit_js_eval import streamlit_js_eval
 
 from styles import apply_global_style
 from paths import IMAGES_DIR
+from device import get_is_mobile
 
 
 # ======================================================
@@ -41,8 +41,44 @@ GREEN_TINT = "#E8F3EC"  # light tint of GREEN_DARK, for button fills
 # to a correct True/False right after.
 # ======================================================
 
-screen_width = streamlit_js_eval(js_expressions='window.parent.innerWidth', key='WIDTH')
-is_mobile = screen_width is not None and screen_width < 768
+screen_width = get_is_mobile()
+
+if screen_width is None:
+    # None only on the very first render of a session, before the
+    # cached value exists (see device.py) -- this is what was causing
+    # the desktop layout to flash before snapping to mobile. Rendering
+    # a neutral skeleton and stopping here means nothing layout-
+    # specific paints before the real value resolves and Streamlit
+    # auto-reruns. On every later page navigation this session, the
+    # cached value returns immediately and this branch is skipped
+    # entirely -- no repeat skeleton flashes.
+    st.markdown(
+        """
+        <style>
+        @keyframes gw-pulse {
+            0% { opacity: 0.5; }
+            50% { opacity: 0.85; }
+            100% { opacity: 0.5; }
+        }
+        .gw-skeleton {
+            background-color: #E4E7EC;
+            border-radius: 10px;
+            animation: gw-pulse 1.3s ease-in-out infinite;
+        }
+        </style>
+        <div class="gw-skeleton" style="height:170px;width:100%;margin-bottom:1.4rem;"></div>
+        <div class="gw-skeleton" style="height:2.1rem;width:65%;margin-bottom:0.7rem;"></div>
+        <div class="gw-skeleton" style="height:1rem;width:90%;margin-bottom:0.4rem;"></div>
+        <div class="gw-skeleton" style="height:1rem;width:55%;margin-bottom:2rem;"></div>
+        <div class="gw-skeleton" style="height:88px;width:100%;margin-bottom:0.8rem;"></div>
+        <div class="gw-skeleton" style="height:88px;width:100%;margin-bottom:0.8rem;"></div>
+        <div class="gw-skeleton" style="height:88px;width:100%;margin-bottom:0.8rem;"></div>
+        """,
+        unsafe_allow_html=True
+    )
+    st.stop()
+
+is_mobile = screen_width
 
 
 # ======================================================
@@ -69,6 +105,33 @@ def style_mobile_button(key, target="button"):
             border: 1px solid {GREEN_DARK} !important;
             color: {GREEN_DARK} !important;
             font-weight: 600 !important;
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+
+# ======================================================
+# MOBILE CARD SPACING
+# Collapses the default vertical-block gap Streamlit applies between
+# stacked elements inside a container -- the columns row, the arrow,
+# and the button all had ~1rem of flex gap between them by default,
+# which is what made the cards read as too spacious on mobile. This
+# overrides that gap directly rather than fighting it with margins on
+# the inner markdown.
+# ======================================================
+
+def style_mobile_card_spacing(key):
+    st.markdown(
+        f"""
+        <style>
+        div.st-key-{key} [data-testid="stVerticalBlock"] {{
+            gap: 0.35rem !important;
+        }}
+        div.st-key-{key} div[data-testid="stElementContainer"] {{
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
         }}
         </style>
         """,
@@ -127,17 +190,86 @@ SYSTEMS = [
 
 
 # ======================================================
-# PAGE INTRODUCTION
+# MOBILE HERO IMAGE
+# Small, fixed-height banner shown only on mobile, right above the
+# page title. object-fit: cover keeps it compact and consistent
+# regardless of the source photo's aspect ratio, cropping rather than
+# squishing it. Adjust the height below if it still feels too thin
+# once you see it live.
 # ======================================================
 
-st.title("Gateway Sustainability Systems")
-
 if is_mobile:
-    st.write(
-        "The first building in the world pursuing TRUE Zero Waste "
-        "Certification for both construction and operations."
+    st.markdown(
+        """
+        <style>
+        /* Break the hero out of Streamlit's default content padding so
+        the photo runs edge-to-edge, and zero out the default gap
+        Streamlit puts between elements inside this container -- same
+        technique used on the system cards below. Title card and photo
+        are both children of ONE container now (not two separate ones)
+        so the negative margin pulling the title up actually holds. */
+        div.st-key-home_hero {
+            margin-left: -1rem !important;
+            margin-right: -1rem !important;
+            width: calc(100% + 2rem) !important;
+        }
+        div.st-key-home_hero div[data-testid="stElementContainer"] {
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+        }
+        div.st-key-home_hero img {
+            height: 170px !important;
+            width: 100% !important;
+            object-fit: cover !important;
+            display: block !important;
+            border-radius: 0 !important;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
     )
-else:
+    with st.container(key="home_hero"):
+        st.image(
+            str(IMAGES_DIR / "Home_Hero.jpg"),
+            use_container_width=True
+        )
+        # Title + intro built as one HTML block (not st.title/st.write)
+        # so it's a single element sitting directly under the image in
+        # this same container -- that's what makes the overlap hold.
+        # border-radius left at 0 for now: rounding the top corners
+        # only looks right if the page background matches this card's
+        # white exactly, otherwise the rounded gap reveals whatever's
+        # behind it (that's what caused the green sliver).
+        st.markdown(
+            """
+            <div style="
+                position: relative;
+                z-index: 2;
+                background-color: #FFFFFF;
+                margin-top: -1.75rem;
+                padding: 1.1rem 0 0.25rem 0;
+            ">
+                <div style="font-size:2.25rem;font-weight:800;line-height:1.15;color:#111417;margin-bottom:0.6rem;">
+                    Gateway Sustainability Systems
+                </div>
+                <div style="font-size:1rem;color:#31333F;line-height:1.5;">
+                    The first building in the world pursuing TRUE Zero Waste Certification for both construction and operations.
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+
+# ======================================================
+# PAGE INTRODUCTION (desktop only)
+# On mobile, the title and intro sentence are rendered inside
+# home_hero above so they can overlap the photo. Desktop has no hero
+# image and keeps the original st.title/st.write.
+# ======================================================
+
+if not is_mobile:
+    st.title("Gateway Sustainability Systems")
     st.write(
         "An interactive guide to the sustainability systems of UC Berkeley's Gateway, the College of Computing and Data Science. Gateway houses the first new college added to UC Berkeley for over 50 years, with construction reaching completion as of June 2026."
         " Gateway is the first building in the world to pursue TRUE Zero Waste Certification for both construction and operations."
@@ -162,9 +294,9 @@ if is_mobile:
     # anywhere on the row to open the page. No hero photos or long
     # descriptions here -- those still live on each system's own page.
     # A left-border accent alternates between the site's two greens so
-    # rows aren't visually identical blocks, and the "Open" button uses
-    # a light green fill to bring back color the compact list lost when
-    # the hero photos were dropped.
+    # rows aren't visually identical blocks, and the "Explore" button
+    # uses a light green fill to bring back color the compact list
+    # lost when the hero photos were dropped.
     # --------------------------------------------------
 
     for i, system in enumerate(SYSTEMS):
@@ -183,30 +315,33 @@ if is_mobile:
             """,
             unsafe_allow_html=True
         )
+        style_mobile_card_spacing(card_key)
 
         with st.container(border=True, key=card_key):
-            row_left, row_right = st.columns([5, 1])
-
-            with row_left:
-                st.markdown(
-                    f"""
-                    <div style="font-size:0.95rem;font-weight:700;color:#343743;margin-bottom:0.15rem;">
-                        {system['title']}
-                    </div>
+            # Subtitle and arrow now share one flex row instead of a
+            # separate st.columns row -- the columns split was adding
+            # its own layout overhead on top of the vertical-block gap,
+            # which is what left that empty chunk of space above the
+            # button. Single markdown call, single element-container.
+            st.markdown(
+                f"""
+                <div style="font-size:0.95rem;font-weight:700;color:#343743;margin-bottom:0.15rem;">
+                    {system['title']}
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;">
                     <div style="font-size:0.82rem;color:#747B8D;">
                         {system['teaser_short']}
                     </div>
-                    """,
-                    unsafe_allow_html=True
-                )
-
-            with row_right:
-                st.markdown("<div style='padding-top:0.35rem;text-align:right;'>→</div>", unsafe_allow_html=True)
+                    <div style="color:#343743;font-size:0.95rem;">→</div>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
 
             style_mobile_button(button_key, target="button")
 
             if st.button(
-                "Open",
+                "Explore",
                 key=button_key,
                 use_container_width=True
             ):
@@ -284,12 +419,36 @@ METRICS = [
     ("Integrated Systems", "5", "Building-wide approach"),
 ]
 
-metric_columns = st.columns(2 if is_mobile else 4, gap="small")
-
-for i, (label, value, note) in enumerate(METRICS):
-    with metric_columns[i % len(metric_columns)]:
-        st.metric(label=label, value=value)
-        st.caption(note)
+if is_mobile:
+    # st.columns collapses to a single stacked column below Streamlit's
+    # mobile breakpoint no matter what count is passed in -- that's why
+    # this was rendering as one full-width list instead of 2x2. A raw
+    # CSS grid doesn't have that breakpoint behavior, so it holds a true
+    # 2x2 layout regardless of viewport width.
+    #
+    # Built with NO blank lines between the per-metric blocks -- same
+    # markdown HTML-block bug hit before: a blank line inside raw HTML
+    # ends markdown's HTML recognition early, so everything after gets
+    # reinterpreted as a code block instead of rendered markup.
+    metric_blocks = []
+    for label, value, note in METRICS:
+        metric_blocks.append(
+            f'<div><div style="font-size:0.85rem;color:#31333F;margin-bottom:0.1rem;">{label}</div>'
+            f'<div style="font-size:1.9rem;font-weight:600;line-height:1.2;color:#111417;">{value}</div>'
+            f'<div style="font-size:0.8rem;color:#747B8D;margin-top:0.1rem;">{note}</div></div>'
+        )
+    metrics_html = (
+        "<div style='display:grid;grid-template-columns:1fr 1fr;gap:1.4rem 1rem;'>"
+        + "".join(metric_blocks)
+        + "</div>"
+    )
+    st.markdown(metrics_html, unsafe_allow_html=True)
+else:
+    metric_columns = st.columns(4, gap="small")
+    for i, (label, value, note) in enumerate(METRICS):
+        with metric_columns[i % len(metric_columns)]:
+            st.metric(label=label, value=value)
+            st.caption(note)
 
 
 # ======================================================
@@ -354,6 +513,7 @@ if is_mobile:
             """,
             unsafe_allow_html=True
         )
+        style_mobile_card_spacing(card_key)
 
         with st.container(border=True, key=card_key):
             st.markdown(
