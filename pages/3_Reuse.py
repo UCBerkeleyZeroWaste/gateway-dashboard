@@ -264,7 +264,7 @@ def step_indicator(steps, active_indices):
 # PAGE HERO
 # ======================================================
 
-HERO_IMAGE_PATH = IMAGES_DIR / "gateway_reuse_hero.jpg"
+HERO_IMAGE_PATH = IMAGES_DIR / "gateway_reuse_hero.jpeg"
 
 if HERO_IMAGE_PATH.exists():
     hero_image = get_base64_image(HERO_IMAGE_PATH)
