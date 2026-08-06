@@ -176,11 +176,21 @@ def numbered_card(title, items, caption=None, height=None, accent=None, key=None
             st.link_button(link_label, link_url, use_container_width=True)
 
 
-def bordered_link_card(title, description, button_label, button_url=None, button_key=None, accent=None, key=None, height=170):
+def bordered_link_card(title, description, button_label, button_url=None, button_key=None, accent=None, key=None, height=None):
     """
     Same shape as the plain st.container(border=True) info cards used for
     cross-link ("Where Else X Shows Up") sections, but with a colored
     border via the same key-based CSS technique as bullet_card/numbered_card.
+
+    height defaults to None -- a fixed pixel height (this used to default
+    to 170) clips any description that runs longer than that estimate and
+    Streamlit shows it as an internal scrollbar instead of growing the
+    card to fit. Leaving it None lets the card size to its content. When
+    a key is given, the card is also stretched to match its neighboring
+    card's height via the align-items: stretch wrapper used at each call
+    site (see "Where Else Reuse Shows Up" below), and its button is
+    pinned to the bottom so two cards with different-length descriptions
+    still line up.
 
     Pass button_url to render a real, working st.link_button. Omitting it
     falls back to a disabled placeholder button (button_key required in
@@ -193,15 +203,32 @@ def bordered_link_card(title, description, button_label, button_url=None, button
     if key is not None:
         container_kwargs["key"] = key
 
-    if accent and key:
+    if key:
         render_html(f"""
         <style>
         div.st-key-{key} {{
-            border: 1.5px solid {accent} !important;
-            border-radius: 0.75rem !important;
+            height: 100%;
+        }}
+        div.st-key-{key} [data-testid="stVerticalBlock"] {{
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }}
+        div.st-key-{key} div[data-testid="stButton"],
+        div.st-key-{key} div[data-testid="stLinkButton"] {{
+            margin-top: auto;
         }}
         </style>
         """)
+        if accent:
+            render_html(f"""
+            <style>
+            div.st-key-{key} {{
+                border: 1.5px solid {accent} !important;
+                border-radius: 0.75rem !important;
+            }}
+            </style>
+            """)
 
     with st.container(**container_kwargs):
         st.subheader(title)
@@ -630,6 +657,12 @@ st.divider()
 # sitting side by side. Cards link straight to the source (the
 # manual, via slide anchor) -- not to the Resource Library -- so this
 # stays a two-click path, not three.
+#
+# Wrapped in a keyed container so the two cards can be stretched to
+# match each other's height via CSS (align-items: stretch on the row,
+# display: flex on each column) instead of both being forced into the
+# same guessed pixel height -- that guessed height was what caused the
+# scrollbar when a description ran long.
 # ======================================================
 
 st.header("Where Else Reuse Shows Up")
@@ -638,29 +671,44 @@ st.write(
     "Reuse extends into kitchens and caf\u00e9s too."
 )
 
-reuse_moment_cols = st.columns(1 if is_mobile else 2, gap="large")
-moment_1 = reuse_moment_cols[0]
-moment_2 = reuse_moment_cols[0] if is_mobile else reuse_moment_cols[1]
+render_html(
+    """
+    <style>
+    div.st-key-reuse_moments_row div[data-testid="stHorizontalBlock"] {
+        align-items: stretch;
+    }
+    div.st-key-reuse_moments_row div[data-testid="stColumn"] {
+        display: flex;
+    }
+    </style>
+    """
+)
 
-with moment_1:
-    bordered_link_card(
-        title="Kitchen Reusables",
-        description="The reuse-first system for Gateway's social kitchens -- reusable dishware, utensils, and cleaning stations.",
-        button_label="Read Kitchen Reusables \u2192",
-        button_url=f"{MANUAL_URL}#slide=id.{MANUAL_PAGE_KITCHEN}",
-        accent="#0B6E4F",
-        key="kitchen_reusables_card"
-    )
+with st.container(key="reuse_moments_row"):
 
-with moment_2:
-    bordered_link_card(
-        title="Caf\u00e9 Operations",
-        description="How Dispatch Goods -- Gateway's reusable takeout system -- works: borrow, use, return, reuse.",
-        button_label="Read Caf\u00e9 Operations \u2192",
-        button_url=f"{MANUAL_URL}#slide=id.{MANUAL_PAGE_CAFE}",
-        accent="#3F8F43",
-        key="cafe_operations_card"
-    )
+    reuse_moment_cols = st.columns(1 if is_mobile else 2, gap="large")
+    moment_1 = reuse_moment_cols[0]
+    moment_2 = reuse_moment_cols[0] if is_mobile else reuse_moment_cols[1]
+
+    with moment_1:
+        bordered_link_card(
+            title="Kitchen Reusables",
+            description="The reuse-first system for Gateway's social kitchens -- reusable dishware, utensils, and cleaning stations.",
+            button_label="Read Kitchen Reusables \u2192",
+            button_url=f"{MANUAL_URL}#slide=id.{MANUAL_PAGE_KITCHEN}",
+            accent="#0B6E4F",
+            key="kitchen_reusables_card"
+        )
+
+    with moment_2:
+        bordered_link_card(
+            title="Caf\u00e9 Operations",
+            description="How Dispatch Goods -- Gateway's reusable takeout system -- works: borrow, use, return, reuse.",
+            button_label="Read Caf\u00e9 Operations \u2192",
+            button_url=f"{MANUAL_URL}#slide=id.{MANUAL_PAGE_CAFE}",
+            accent="#3F8F43",
+            key="cafe_operations_card"
+        )
 
 
 # ======================================================

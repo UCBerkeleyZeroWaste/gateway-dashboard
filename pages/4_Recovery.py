@@ -3,6 +3,7 @@
 import base64
 import textwrap
 from pathlib import Path
+from urllib.parse import quote
 
 import streamlit as st
 from streamlit_js_eval import streamlit_js_eval
@@ -47,6 +48,13 @@ is_mobile = screen_width is not None and screen_width < 768
 
 MANUAL_URL = "https://docs.google.com/presentation/d/1j3IVyxEG0aGZXlMy2ydaw6Dh-32Yhf_N/present"
 MANUAL_PAGE_SORTING = "p3"
+
+# E-waste pickup requests go to Sarah at this address. Built into a
+# mailto: link with a pre-filled subject on the E-Waste pathway card
+# below (see the "action_label" / "action_url" args on that PATHWAYS
+# entry) instead of just being printed as text in the tagline.
+EWASTE_CONTACT_EMAIL = "specora@berkeley.edu"
+EWASTE_MAILTO_SUBJECT = "E-Waste Pickup Request \u2014 Gateway"
 
 
 # ======================================================
@@ -165,15 +173,22 @@ def get_base64_image(image_path):
     return base64.b64encode(image_bytes).decode()
 
 
-def pathway_card(icon, title, tagline, chips, outcome, accent, key, photo_filename=None, photo_label=None, height=450):
+def pathway_card(icon, title, tagline, chips, outcome, accent, key, photo_filename=None,
+                  photo_label=None, height=450, action_label=None, action_url=None):
     """
     Scannable feature card: badge icon, title, one-line tagline, an
-    optional small reference photo, accepted items as pill chips, and a
-    single short outcome line combining destination + benefit. Same
+    optional small reference photo, an optional call-to-action button
+    (e.g. a mailto: link), accepted items as pill chips, and a single
+    short outcome line combining destination + benefit. Same
     colored-border technique (div.st-key-{key}) as the rest of the site.
     Fixed height so all cards in a row line up -- height is only passed
     on desktop (4-across); on mobile, cards stack full-width and don't
     need to match each other's height.
+
+    action_label / action_url: when both are set, a real st.link_button
+    is rendered between the photo and the chips, tinted to match this
+    card's accent color the same way the chips already are (accent+"17"
+    for the fill, plain accent for the border/text).
     """
 
     render_html(f"""
@@ -181,6 +196,12 @@ def pathway_card(icon, title, tagline, chips, outcome, accent, key, photo_filena
     div.st-key-{key} {{
         border: 1.5px solid {accent} !important;
         border-radius: 0.75rem !important;
+    }}
+    div.st-key-{key} div[data-testid="stLinkButton"] a {{
+        background-color: #EDEEF0 !important;
+        border: 1px solid #9AA1B0 !important;
+        color: #343743 !important;
+        font-weight: 600 !important;
     }}
     </style>
     """)
@@ -213,13 +234,24 @@ def pathway_card(icon, title, tagline, chips, outcome, accent, key, photo_filena
         if photo_filename:
             mini_photo_spot(photo_filename, photo_label)
 
-        render_html(f"""
-        <div style="text-align:center;">
-            <div style="margin:{'0.65rem' if not photo_filename else '0'} 0 0.65rem 0;">{chip_html}</div>
+        if action_label and action_url:
+            top_margin = "0.6rem" if not photo_filename else "0"
+            render_html(f"""<div style="margin:{top_margin} 0 0 0;"></div>""")
+            st.link_button(action_label, action_url, use_container_width=True)
+
+        outcome_html = ""
+        if outcome and outcome.strip():
+            outcome_html = f"""
             <div style="font-size:0.76rem;color:#343743;line-height:1.4;
                 font-family:Arial, sans-serif;border-top:1px solid #E4E7EC;padding-top:0.55rem;">
                 &#8594; {outcome}
             </div>
+            """
+
+        render_html(f"""
+        <div style="text-align:center;">
+            <div style="margin:0.65rem 0 0.65rem 0;">{chip_html}</div>
+            {outcome_html}
         </div>
         """)
 
@@ -347,13 +379,15 @@ PATHWAYS = [
     {
         "icon": "\U0001F4BB",
         "title": "E-Waste",
-        "tagline": "Hold onto old electronics until you have a small batch, then email specora@berkeley.edu to arrange pickup.",
-        "chips": ["Cables", "Chargers", "Small electronics", "Old devices"],
-        "outcome": "Certified e-waste recycler \u2014 recovers metals, keeps lead & mercury out of landfill",
-        "accent": "#3F8F43",
+        "tagline": "Hold onto old electronics until you have a small batch, then request a pickup.",
+        "chips": ["Cables", "Chargers", "Electronics", "Old devices"],
+        "outcome": "Certified recycler \u2014 keeps metals & hazmat out of landfill",
+        "accent": "#0B6E4F",
         "key": "ewaste_pathway_card",
         "photo_filename": "gateway_ewaste_bin.jpg",
-        "photo_label": "E-waste ready for pickup"
+        "photo_label": "E-waste ready for pickup",
+        "action_label": "Email for Pickup \u2192",
+        "action_url": f"mailto:{EWASTE_CONTACT_EMAIL}?subject={quote(EWASTE_MAILTO_SUBJECT)}"
     },
     {
         "icon": "\U0001F331",
@@ -361,7 +395,7 @@ PATHWAYS = [
         "tagline": "Standard bins throughout the building \u2014 plus the Mill, a special one on the 5th floor.",
         "chips": ["Food scraps", "Approved compostable service ware", "Meat & bones", "Dairy", "Coffee gounds & filters", "Tea bags", "Napkins"],
         "outcome": "Compost stream / Mill's grounds \u2014 keeps food waste out of landfill, cuts methane",
-        "accent": "#0B6E4F",
+        "accent": "#3F8F43",
         "key": "compost_pathway_card"
     },
 ]
@@ -389,8 +423,8 @@ mill_text_col = mill_cols[0] if is_mobile else mill_cols[1]
 with mill_photo_col:
     show_media(
         "gateway_mill.jpg",
-        instructions="Photo of the Mill itself in the 5th floor social kitchen -- the physical unit, ideally mid-use or freshly installed.",
-        caption="The Mill, 5th floor social kitchen."
+        instructions="Photo of the Mill itself in the 1st floor social kitchen -- the physical unit, ideally mid-use or freshly installed.",
+        caption="The Mill, 1st floor social kitchen."
     )
 
 with mill_text_col:
@@ -398,7 +432,7 @@ with mill_text_col:
         "Most recovery pathways are a labeled bin. The Mill is the "
         "exception -- an on-site food recycler that dries and grinds "
         "scraps overnight into nutrient-dense grounds, right in the "
-        "5th floor social kitchen. It's the one pathway occupants can "
+        "1st floor social kitchen. It's the one pathway occupants can "
         "actually watch do its job."
     )
     st.metric(label="Volume Reduction", value="~80%")
@@ -468,6 +502,6 @@ st.link_button("View Sorting Guide", f"{MANUAL_URL}#slide=id.{MANUAL_PAGE_SORTIN
 st.divider()
 
 st.caption(
-    "Gateway opened operationally in 2026. Update this page with real "
-    "weight and diversion data, plus signage, as they become available."
-)
+    "Gateway opened operationally in 2026. This page will be updated with real "
+    "weight and diversion data as it becomes available."
+    )
