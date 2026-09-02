@@ -271,7 +271,7 @@ if is_mobile:
 if not is_mobile:
     st.title("Gateway Sustainability Systems")
     st.write(
-        "An interactive guide to the sustainability systems of UC Berkeley's Gateway, the College of Computing and Data Science. Gateway houses the first new college added to UC Berkeley for over 50 years, with construction reaching completion as of June 2026."
+        "An interactive guide to the sustainability systems of the Barbara and Gerson Bakar Gateway, home of the UC Berkeley College of Computing, Data Science, and Society. Gateway houses the first new college added to UC Berkeley for over 50 years, with construction reaching completion as of June 2026."
         " Gateway is the first building in the world to pursue TRUE Zero Waste Certification for both construction and operations."
     )
 
