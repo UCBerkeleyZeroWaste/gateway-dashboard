@@ -28,6 +28,8 @@ IMAGES = {
     "images/gateway_reuse_hero.jpeg": ("reuse-hero", [800, 1600]),
     "Figures/gateway_reuse_station_2nd_floor.jpg": ("reuse-station", [600]),
     "Figures/gateway_reusables_set.jpg": ("reusables-set", [600]),
+    "images/gateway_recovery_hero.jpg": ("recovery-hero", [720]),
+    "Figures/gateway_mill.jpg": ("mill", [800]),
 }
 
 QUALITY = 72
