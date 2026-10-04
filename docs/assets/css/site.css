@@ -569,3 +569,9 @@ p { margin: 0 0 0.85rem; }
 .caterer-list a { display: block; background: var(--surface); border-radius: var(--radius); padding: 0.6rem 0.85rem; font-weight: 600; }
 .manual-end { margin-top: 1.5rem; padding-top: 1.1rem; border-top: 1px solid var(--line); }
 .manual-end p { color: var(--ink-muted); font-size: 0.95rem; }
+
+/* ---------- PDF links ---------- */
+
+.hero-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.9rem; }
+@media (max-width: 639px) { .hero-actions .btn { width: 100%; } }
+@media (min-width: 1024px) { .panel-grid-3 { grid-template-columns: repeat(3, 1fr); } }
