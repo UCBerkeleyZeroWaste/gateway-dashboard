@@ -18,6 +18,11 @@ IMAGES = {
     "images/Reuse.jpg": ("card-reuse", [400]),
     "images/Circular_Purchasing.jpg": ("card-purchasing", [400]),
     "images/Recovery.jpg": ("card-recovery", [400]),
+    "Figures/construction_source_separation.jpg": ("construction-hero", [800, 1600]),
+    "Figures/permasteelisa_curtainwall_bunks.JPEG": ("curtainwall-bunks", [800]),
+    "Figures/reusable_shipping_systems.JPEG": ("reusable-ductwork", [800]),
+    "Figures/salvaged_tree_furniture.png": ("tree-to-table", [733]),
+    "Figures/bobcat_t7x_gateway.jpg": ("bobcat-t7x", [800]),
 }
 
 QUALITY = 72

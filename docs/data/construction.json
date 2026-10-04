@@ -1,0 +1,390 @@
+{
+ "monthly": {
+  "haul_records": 1207,
+  "months": [
+   {
+    "month": "2022-11",
+    "rate": 99.85,
+    "diverted_tons": 515.0,
+    "landfilled_tons": 0.8,
+    "total_tons": 515.8
+   },
+   {
+    "month": "2022-12",
+    "rate": 94.56,
+    "diverted_tons": 10.5,
+    "landfilled_tons": 0.6,
+    "total_tons": 11.1
+   },
+   {
+    "month": "2023-01",
+    "rate": null,
+    "diverted_tons": 0.0,
+    "landfilled_tons": 0.0,
+    "total_tons": 0.0
+   },
+   {
+    "month": "2023-02",
+    "rate": null,
+    "diverted_tons": 0.0,
+    "landfilled_tons": 0.0,
+    "total_tons": 0.0
+   },
+   {
+    "month": "2023-03",
+    "rate": null,
+    "diverted_tons": 0.0,
+    "landfilled_tons": 0.0,
+    "total_tons": 0.0
+   },
+   {
+    "month": "2023-04",
+    "rate": 94.74,
+    "diverted_tons": 83.3,
+    "landfilled_tons": 4.6,
+    "total_tons": 87.9
+   },
+   {
+    "month": "2023-05",
+    "rate": 99.81,
+    "diverted_tons": 1521.3,
+    "landfilled_tons": 2.9,
+    "total_tons": 1524.2
+   },
+   {
+    "month": "2023-06",
+    "rate": 99.87,
+    "diverted_tons": 1559.3,
+    "landfilled_tons": 2.0,
+    "total_tons": 1561.4
+   },
+   {
+    "month": "2023-07",
+    "rate": 81.54,
+    "diverted_tons": 16.6,
+    "landfilled_tons": 3.7,
+    "total_tons": 20.3
+   },
+   {
+    "month": "2023-08",
+    "rate": 100.0,
+    "diverted_tons": 36.8,
+    "landfilled_tons": 0.0,
+    "total_tons": 36.8
+   },
+   {
+    "month": "2023-09",
+    "rate": 100.0,
+    "diverted_tons": 33.9,
+    "landfilled_tons": 0.0,
+    "total_tons": 33.9
+   },
+   {
+    "month": "2023-10",
+    "rate": 100.0,
+    "diverted_tons": 59253.0,
+    "landfilled_tons": 0.0,
+    "total_tons": 59253.0
+   },
+   {
+    "month": "2023-11",
+    "rate": 72.6,
+    "diverted_tons": 25.6,
+    "landfilled_tons": 9.7,
+    "total_tons": 35.3
+   },
+   {
+    "month": "2023-12",
+    "rate": 84.28,
+    "diverted_tons": 17.6,
+    "landfilled_tons": 3.3,
+    "total_tons": 20.9
+   },
+   {
+    "month": "2024-01",
+    "rate": 93.93,
+    "diverted_tons": 91.0,
+    "landfilled_tons": 5.9,
+    "total_tons": 96.9
+   },
+   {
+    "month": "2024-02",
+    "rate": 86.17,
+    "diverted_tons": 70.3,
+    "landfilled_tons": 11.3,
+    "total_tons": 81.6
+   },
+   {
+    "month": "2024-03",
+    "rate": 91.61,
+    "diverted_tons": 138.8,
+    "landfilled_tons": 12.7,
+    "total_tons": 151.5
+   },
+   {
+    "month": "2024-04",
+    "rate": 72.44,
+    "diverted_tons": 27.2,
+    "landfilled_tons": 10.3,
+    "total_tons": 37.5
+   },
+   {
+    "month": "2024-05",
+    "rate": 72.48,
+    "diverted_tons": 24.4,
+    "landfilled_tons": 9.3,
+    "total_tons": 33.7
+   },
+   {
+    "month": "2024-06",
+    "rate": 80.79,
+    "diverted_tons": 30.8,
+    "landfilled_tons": 7.3,
+    "total_tons": 38.1
+   },
+   {
+    "month": "2024-07",
+    "rate": 86.02,
+    "diverted_tons": 41.9,
+    "landfilled_tons": 6.8,
+    "total_tons": 48.7
+   },
+   {
+    "month": "2024-08",
+    "rate": 85.02,
+    "diverted_tons": 88.8,
+    "landfilled_tons": 15.6,
+    "total_tons": 104.4
+   },
+   {
+    "month": "2024-09",
+    "rate": 96.5,
+    "diverted_tons": 140.2,
+    "landfilled_tons": 5.1,
+    "total_tons": 145.3
+   },
+   {
+    "month": "2024-10",
+    "rate": 99.74,
+    "diverted_tons": 378.2,
+    "landfilled_tons": 1.0,
+    "total_tons": 379.2
+   },
+   {
+    "month": "2024-11",
+    "rate": 98.89,
+    "diverted_tons": 182.0,
+    "landfilled_tons": 2.0,
+    "total_tons": 184.1
+   },
+   {
+    "month": "2024-12",
+    "rate": 94.46,
+    "diverted_tons": 115.0,
+    "landfilled_tons": 6.7,
+    "total_tons": 121.7
+   },
+   {
+    "month": "2025-01",
+    "rate": 88.1,
+    "diverted_tons": 89.5,
+    "landfilled_tons": 12.1,
+    "total_tons": 101.6
+   },
+   {
+    "month": "2025-02",
+    "rate": 95.78,
+    "diverted_tons": 120.9,
+    "landfilled_tons": 5.3,
+    "total_tons": 126.3
+   },
+   {
+    "month": "2025-03",
+    "rate": 94.67,
+    "diverted_tons": 135.2,
+    "landfilled_tons": 7.6,
+    "total_tons": 142.8
+   },
+   {
+    "month": "2025-04",
+    "rate": 86.83,
+    "diverted_tons": 124.2,
+    "landfilled_tons": 18.8,
+    "total_tons": 143.0
+   },
+   {
+    "month": "2025-05",
+    "rate": 84.97,
+    "diverted_tons": 155.6,
+    "landfilled_tons": 27.5,
+    "total_tons": 183.1
+   },
+   {
+    "month": "2025-06",
+    "rate": 62.28,
+    "diverted_tons": 111.0,
+    "landfilled_tons": 67.2,
+    "total_tons": 178.2
+   },
+   {
+    "month": "2025-07",
+    "rate": 67.29,
+    "diverted_tons": 91.5,
+    "landfilled_tons": 44.5,
+    "total_tons": 136.0
+   },
+   {
+    "month": "2025-08",
+    "rate": 79.28,
+    "diverted_tons": 122.9,
+    "landfilled_tons": 32.1,
+    "total_tons": 155.0
+   },
+   {
+    "month": "2025-09",
+    "rate": 89.76,
+    "diverted_tons": 182.1,
+    "landfilled_tons": 20.8,
+    "total_tons": 202.9
+   },
+   {
+    "month": "2025-10",
+    "rate": 77.48,
+    "diverted_tons": 175.2,
+    "landfilled_tons": 50.9,
+    "total_tons": 226.1
+   },
+   {
+    "month": "2025-11",
+    "rate": 95.75,
+    "diverted_tons": 242.9,
+    "landfilled_tons": 10.8,
+    "total_tons": 253.7
+   },
+   {
+    "month": "2025-12",
+    "rate": 87.09,
+    "diverted_tons": 224.9,
+    "landfilled_tons": 33.4,
+    "total_tons": 258.3
+   },
+   {
+    "month": "2026-01",
+    "rate": 87.55,
+    "diverted_tons": 452.4,
+    "landfilled_tons": 64.3,
+    "total_tons": 516.7
+   },
+   {
+    "month": "2026-02",
+    "rate": 53.56,
+    "diverted_tons": 55.9,
+    "landfilled_tons": 48.5,
+    "total_tons": 104.4
+   },
+   {
+    "month": "2026-03",
+    "rate": 60.67,
+    "diverted_tons": 37.1,
+    "landfilled_tons": 24.0,
+    "total_tons": 61.1
+   },
+   {
+    "month": "2026-04",
+    "rate": 44.36,
+    "diverted_tons": 18.9,
+    "landfilled_tons": 23.7,
+    "total_tons": 42.5
+   },
+   {
+    "month": "2026-05",
+    "rate": 30.82,
+    "diverted_tons": 15.1,
+    "landfilled_tons": 33.8,
+    "total_tons": 48.8
+   },
+   {
+    "month": "2026-06",
+    "rate": 51.97,
+    "diverted_tons": 7.5,
+    "landfilled_tons": 7.0,
+    "total_tons": 14.5
+   }
+  ]
+ },
+ "materials": [
+  {
+   "material": "Concrete",
+   "tons": 4903.85
+  },
+  {
+   "material": "Clean Drywall",
+   "tons": 939.57
+  },
+  {
+   "material": "Wood",
+   "tons": 751.47
+  },
+  {
+   "material": "Asphalt",
+   "tons": 380.42
+  },
+  {
+   "material": "Alternate Daily Cover (ADC)",
+   "tons": 354.43
+  },
+  {
+   "material": "Mixed Recyclables",
+   "tons": 302.32
+  },
+  {
+   "material": "Metal",
+   "tons": 244.37
+  },
+  {
+   "material": "Miscellaneous Debris",
+   "tons": 24.34
+  },
+  {
+   "material": "Drywall – Demo & Painted",
+   "tons": 20.45
+  },
+  {
+   "material": "Cardboard & Paper Products",
+   "tons": 10.01
+  },
+  {
+   "material": "Trash Sorted for Recovery",
+   "tons": 9.1
+  },
+  {
+   "material": "Plastics & Plastic Packaging Materials",
+   "tons": 3.62
+  },
+  {
+   "material": "Compost",
+   "tons": 0.75
+  }
+ ],
+ "hauling_costs": {
+  "with_true": 5569112.94,
+  "without_true": 7419040.29
+ },
+ "embodied_carbon": [
+  {
+   "material": "Curtainwall",
+   "reduction_percent": 15,
+   "label": "15% lower"
+  },
+  {
+   "material": "EcoSmart Drywall",
+   "reduction_percent": 20,
+   "label": "≈20% lower"
+  },
+  {
+   "material": "Lower-Carbon Concrete",
+   "reduction_percent": 38,
+   "label": "38% lower"
+  }
+ ]
+}
