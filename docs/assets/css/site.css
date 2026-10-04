@@ -459,3 +459,25 @@ p { margin: 0 0 0.85rem; }
 .kit li { background: var(--surface); border-radius: var(--radius); padding: 0.75rem 0.85rem; }
 .kit .metric-value { font-size: clamp(1.25rem, 4.6vw, 1.6rem); }
 .motto { font-size: 1.15rem; font-weight: 700; color: var(--green); margin-bottom: 0.6rem; }
+
+/* ---------- Phone readability: fewer, larger, airier blocks ---------- */
+@media (max-width: 639px) {
+  .hide-phone { display: none !important; }
+  body { line-height: 1.6; }
+  .section-intro { font-size: 1rem; }
+  .mini p, .mini li, .facts li, .panel li, .panel p { font-size: 1rem; }
+  .facts { gap: 0.55rem; }
+  .split { gap: 1.1rem; }
+  .callout { padding: 0.9rem 1rem; margin: 1rem 0; }
+  .callout-grid > .callout + .callout { margin-top: 0; }
+  .mini { border: 0; background: var(--surface); padding: 0.85rem 0.95rem; }
+  .mini-grid { gap: 0.75rem; }
+  .kit { gap: 0.6rem; }
+  .kit .metric-label { font-size: 0.9rem; }
+  .resource { padding: 0; border: 0; }
+  .resource h3 { display: none; }
+  .resource p { display: none; }
+  .panel-grid:has(.resource) { gap: 0.6rem; }
+  .pull { font-size: 1rem; margin-top: 0.75rem; }
+  .chart-figure figcaption { font-size: 0.95rem; }
+}

@@ -83,8 +83,8 @@
       '<div class="involved">' +
         '<section aria-labelledby="get-involved">' +
           '<h2 id="get-involved">Get involved</h2>' +
-          "<p>Have a question, comment, or concern about zero waste at Gateway? Tell us in our short survey.</p>" +
-          "<p>Curious about becoming your department's Green Team Representative? Let us know. No commitment.</p>" +
+          "<p>Questions, comments, or concerns about zero waste at Gateway? Tell us in our short survey.</p>" +
+          "<p>Curious about being your department's Green Team Representative? Let us know. No commitment.</p>" +
           '<a class="btn" href="' + LINKS.survey + '">Take the survey<span class="sr-only"> (Google Form)</span></a>' +
         "</section>" +
         '<details class="fold" data-open-desktop>' +
