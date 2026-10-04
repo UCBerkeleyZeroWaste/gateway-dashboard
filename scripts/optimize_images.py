@@ -12,7 +12,7 @@ OUT = ROOT / "docs" / "assets" / "img"
 
 # source file -> (output name, widths to generate)
 IMAGES = {
-    "images/gateway_home_hero_atrium.webp": ("home-hero-atrium", [800, 1600]),
+    "images/Home_Hero.jpg": ("home-hero", [800, 1600]),
     "images/Construction.jpg": ("card-construction", [400]),
     "images/Building.jpg": ("card-building", [400]),
     "images/card_reuse_station.jpg": ("card-reuse-station", [400]),
