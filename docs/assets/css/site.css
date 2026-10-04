@@ -563,3 +563,7 @@ p { margin: 0 0 0.85rem; }
   content: ""; position: absolute; left: 0; top: 0.2em; width: 1.05rem; height: 1.05rem;
   border: 2px solid var(--green); border-radius: 4px;
 }
+.caterer-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.45rem; }
+@media (min-width: 640px) { .caterer-list { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .caterer-list { grid-template-columns: repeat(3, 1fr); } }
+.caterer-list a { display: block; background: var(--surface); border-radius: var(--radius); padding: 0.6rem 0.85rem; font-weight: 600; }
