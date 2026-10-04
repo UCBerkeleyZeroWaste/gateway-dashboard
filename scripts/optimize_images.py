@@ -17,6 +17,7 @@ IMAGES = {
     "images/Building.jpg": ("card-building", [400]),
     "images/Reuse.jpg": ("card-reuse", [400]),
     "images/Circular_Purchasing.jpg": ("card-purchasing", [400]),
+    "images/gateway_circular_purchasing_hero.jpg": ("purchasing-hero", [740]),
     "images/Recovery.jpg": ("card-recovery", [400]),
     "Figures/construction_source_separation.jpg": ("construction-hero", [800, 1600]),
     "Figures/permasteelisa_curtainwall_bunks.JPEG": ("curtainwall-bunks", [800]),
