@@ -78,29 +78,6 @@ def embodied_carbon():
     return sheet.to_dict(orient="records")
 
 
-def plastic_prevented():
-    """Plastic prevented by the starter kits, cumulative by year (no recovery bar)."""
-    kit = pd.read_csv(DATA / "starter_kit_2026.csv")
-    kit["grams_per_year"] = kit["quantity"] * kit["refills_per_year"] * kit["grams_plastic_per_disposable"]
-    per_year_kg = kit["grams_per_year"].sum() / 1000
-    years = [2026, 2027, 2028]
-    return {
-        "items": kit.to_dict(orient="records"),
-        "kg_per_year": round(per_year_kg, 3),
-        "cumulative": [{"year": y, "kg": round(per_year_kg * (i + 1), 2)} for i, y in enumerate(years)],
-    }
-
-
-def reusables():
-    """Kitchen reusables and the disposable items they avoid each year."""
-    sheet = pd.read_excel(DATA / "Gateway_Graphs.xlsx", sheet_name="Reusables Workbook", nrows=11)
-    items = sheet[sheet["Item"].notna() & (sheet["Item"] != "Total")]
-    return {
-        "items": [{"item": str(i).strip(), "quantity": int(q)} for i, q in zip(items["Item"], items["Quantity"])],
-        "avoided_per_year": int(items["Disposable Items Avoided/ Year"].sum()),
-    }
-
-
 if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
     write("construction.json", {
@@ -109,4 +86,3 @@ if __name__ == "__main__":
         "hauling_costs": hauling_costs(),
         "embodied_carbon": embodied_carbon(),
     })
-    write("reuse.json", {"plastic": plastic_prevented(), "reusables": reusables()})
