@@ -407,3 +407,32 @@ p { margin: 0 0 0.85rem; }
   .photo { max-height: 210px; }
   .fold-section { margin-top: 0.9rem; }
 }
+
+/* ---------- Mass-balance flow diagram (Building Systems) ---------- */
+
+.flow { display: grid; gap: 0.6rem; align-items: center; margin: 0.5rem 0 0; }
+@media (min-width: 900px) { .flow { grid-template-columns: 1fr auto 0.8fr auto 1.25fr; gap: 0.9rem; } }
+.flow-col { border: 1px solid var(--line); border-radius: var(--radius); padding: 0.8rem 0.9rem; }
+.flow-col h3 { font-size: 0.82rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--green); margin-bottom: 0.45rem; }
+.flow-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.4rem; }
+.flow-list li { background: var(--surface); border-radius: 8px; padding: 0.45rem 0.65rem; font-size: 0.93rem; line-height: 1.35; }
+.flow-list li strong { display: block; color: var(--ink-strong); }
+.flow-list li span { display: block; font-size: 0.84rem; color: var(--ink-muted); }
+.flow-list li.flow-landfill { background: var(--white); border: 2px dashed var(--ink-muted); }
+.flow-hub {
+  background: var(--green); color: var(--white); border-radius: var(--radius);
+  padding: 1rem; text-align: center; font-weight: 700; font-size: 1.15rem;
+}
+.flow-hub span { display: block; font-weight: 400; font-size: 0.86rem; margin-top: 0.2rem; color: rgba(255, 255, 255, 0.92); }
+.flow-arrow { display: flex; justify-content: center; color: var(--green); }
+.flow-arrow svg { width: 28px; height: 28px; transform: rotate(90deg); }
+@media (min-width: 900px) { .flow-arrow svg { transform: none; } }
+@media (max-width: 639px) {
+  .flow { gap: 0.35rem; }
+  .flow-list { grid-template-columns: 1fr 1fr; gap: 0.35rem; }
+  .flow-list li { padding: 0.4rem 0.5rem; font-size: 0.88rem; }
+  .flow-hub { padding: 0.7rem; }
+}
+.equation { font-weight: 600; color: var(--ink-strong); font-size: 1.02rem; }
+.callout-grid { display: grid; gap: 0 1rem; }
+@media (min-width: 900px) { .callout-grid { grid-template-columns: 1fr 1fr; } }

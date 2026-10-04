@@ -23,6 +23,7 @@ IMAGES = {
     "Figures/reusable_shipping_systems.JPEG": ("reusable-ductwork", [800]),
     "Figures/salvaged_tree_furniture.png": ("tree-to-table", [733]),
     "Figures/bobcat_t7x_gateway.jpg": ("bobcat-t7x", [800]),
+    "images/gateway_building_systems_hero.jpg": ("building-hero", [800, 1536]),
 }
 
 QUALITY = 72
