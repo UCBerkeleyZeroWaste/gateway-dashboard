@@ -481,3 +481,5 @@ p { margin: 0 0 0.85rem; }
   .pull { font-size: 1rem; margin-top: 0.75rem; }
   .chart-figure figcaption { font-size: 0.95rem; }
 }
+.photo-portrait { max-height: 480px; width: auto; max-width: 100%; margin: 0 auto; }
+@media (max-width: 639px) { .photo-portrait { width: 100%; max-height: 300px; object-fit: cover; object-position: center 20%; } }

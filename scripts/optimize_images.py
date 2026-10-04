@@ -5,7 +5,7 @@ Requires Pillow. Originals in images/ and Figures/ are never modified.
 """
 from pathlib import Path
 
-from PIL import Image
+from PIL import Image, ImageOps
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "docs" / "assets" / "img"
@@ -25,7 +25,7 @@ IMAGES = {
     "Figures/bobcat_t7x_gateway.jpg": ("bobcat-t7x", [800]),
     "images/gateway_building_systems_hero.jpg": ("building-hero", [800, 1536]),
     "images/gateway_reuse_hero.jpeg": ("reuse-hero", [800, 1600]),
-    "Figures/gateway_reuse_station.png": ("reuse-station", [537]),
+    "Figures/gateway_reuse_station_2nd_floor.jpg": ("reuse-station", [600]),
     "Figures/gateway_reusables_set.jpg": ("reusables-set", [600]),
 }
 
@@ -33,7 +33,7 @@ QUALITY = 72
 
 
 def export(src, name, widths):
-    image = Image.open(ROOT / src).convert("RGB")
+    image = ImageOps.exif_transpose(Image.open(ROOT / src)).convert("RGB")
     for width in widths:
         target = min(width, image.width)
         height = round(image.height * target / image.width)
