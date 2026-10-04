@@ -116,7 +116,8 @@ p { margin: 0 0 0.85rem; }
 @media (min-width: 1200px) {
   .nav-toggle { display: none; }
   .site-nav a, .brand { white-space: nowrap; }
-  .site-nav ul { display: flex; gap: 0.15rem; }
+  .site-header .wrap { flex-wrap: wrap; padding-top: 0.4rem; padding-bottom: 0.4rem; }
+  .site-nav ul { display: flex; flex-wrap: wrap; gap: 0.15rem; }
   .site-nav a { padding: 0.45rem 0.6rem; font-size: 0.9rem; }
 }
 
@@ -278,4 +279,86 @@ p { margin: 0 0 0.85rem; }
 
 @media (prefers-reduced-motion: no-preference) {
   html { scroll-behavior: smooth; }
+}
+
+/* ---------- Collapsible sections (phones) ----------
+   <details data-open-desktop> folds long text on phones and is opened
+   by site.js on wider screens, where the toggle is hidden. */
+
+.fold > summary {
+  list-style: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
+}
+.fold > summary::-webkit-details-marker { display: none; }
+.fold > summary::after {
+  content: ""; flex: none; width: 9px; height: 9px; margin-right: 4px;
+  border-right: 2px solid var(--green); border-bottom: 2px solid var(--green);
+  transform: rotate(45deg) translateY(-3px); transition: transform 0.15s;
+}
+.fold[open] > summary::after { transform: rotate(-135deg) translateY(-2px); }
+.fold > summary h2, .fold > summary h3 { margin: 0; }
+.fold-hint { display: block; font-size: 0.86rem; color: var(--ink-muted); font-weight: 400; margin-top: 0.15rem; }
+.fold > summary > :first-child { flex: 1; }
+.panel.fold > summary { display: grid; grid-template-columns: 1fr auto; }
+.panel.fold > summary h3 { grid-column: 1; }
+.panel.fold > summary .fold-hint { grid-column: 1; }
+.panel.fold > summary::after { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
+.panel.fold[open] > summary { margin-bottom: 0.5rem; }
+.fold-plain > summary {
+  justify-content: flex-start; color: var(--green); font-weight: 600; font-size: 0.95rem;
+  padding: 0.25rem 0; margin-bottom: 0.5rem;
+}
+.fold-plain > summary > :first-child { flex: none; }
+.site-footer .fold > summary::after { border-color: var(--white); }
+
+@media (min-width: 768px) {
+  .js .fold[data-open-desktop] > summary { pointer-events: none; cursor: default; }
+  .js .fold[data-open-desktop] > summary::after,
+  .js .fold[data-open-desktop] .fold-hint,
+  .js .fold-plain[data-open-desktop] > summary { display: none; }
+  .js .panel.fold[data-open-desktop] > summary { margin-bottom: 0.4rem; }
+}
+
+/* ---------- Phone density ---------- */
+
+@media (max-width: 639px) {
+  .section { padding: 1.6rem 0; }
+  h2 { margin-bottom: 0.35rem; }
+  .section-intro { font-size: 0.95rem; margin-bottom: 0.9rem; }
+  .hero-img { height: 180px; }
+  .hero-text { padding-top: 1.1rem; padding-bottom: 0; }
+  .hero-text .lede { font-size: 1.02rem; margin-bottom: 0.4rem; }
+  .metric { padding: 0.7rem 0.8rem; }
+
+  /* System cards become single rows: text on the left, Explore on the right. */
+  .cards { gap: 0.5rem; }
+  .card-system .card-body {
+    display: grid; grid-template-columns: 1fr auto; column-gap: 0.75rem; align-items: center;
+    padding: 0.6rem 0.75rem;
+  }
+  .card-system .card-num, .card-system h3, .card-system p { grid-column: 1; }
+  .card-system p { margin: 0; }
+  .card-system .btn { grid-column: 2; grid-row: 1 / span 3; width: auto; padding: 0.45rem 0.85rem; }
+
+  .panel-grid { gap: 0.6rem; }
+  .panel { padding: 0.85rem 0.95rem; }
+  .pull { margin-top: 0.9rem; font-size: 0.95rem; }
+
+  /* Team scrolls sideways so the section stays one card tall. */
+  .team-lead { margin-bottom: 0.25rem; }
+  .team {
+    display: flex; align-items: flex-start; gap: 0.6rem; overflow-x: auto; scroll-snap-type: x mandatory;
+    margin: 0.75rem calc(-1 * var(--gutter)) 0; padding: 0 var(--gutter) 0.5rem;
+    scroll-padding: 0 var(--gutter);
+  }
+  .person { flex: 0 0 82%; scroll-snap-align: start; padding: 0.8rem 0.85rem; }
+
+  .resource { padding: 0.85rem 0.95rem; }
+  .resource .eyebrow { display: none; }
+  .resource p { font-size: 0.9rem; margin-bottom: 0.6rem; }
+
+  .site-footer { margin-top: 1.5rem; }
+  .site-footer .wrap { padding-top: 1.6rem; padding-bottom: 1.4rem; }
+  .involved { gap: 1rem; }
+  .footer-base { margin-top: 1.25rem; }
 }

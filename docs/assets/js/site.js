@@ -5,6 +5,7 @@
 (function () {
   "use strict";
 
+  document.documentElement.classList.add("js");
   var body = document.body;
   var root = body.getAttribute("data-root") || "";
   var current = body.getAttribute("data-page") || "";
@@ -86,8 +87,8 @@
           "<p>Curious about becoming your department's Green Team Representative? Let us know. No commitment.</p>" +
           '<a class="btn" href="' + LINKS.survey + '">Take the survey<span class="sr-only"> (Google Form)</span></a>' +
         "</section>" +
-        '<section aria-labelledby="contacts">' +
-          '<h2 id="contacts">Who to contact</h2>' +
+        '<details class="fold" data-open-desktop>' +
+          '<summary><h2 id="contacts">Who to contact</h2></summary>' +
           '<ul class="contacts">' +
             "<li><strong>Sam Bunke, Zero Waste Specialist</strong>" +
               '<span><a href="mailto:sbunke@berkeley.edu">sbunke@berkeley.edu</a></span>' +
@@ -99,7 +100,7 @@
               '<span><a href="mailto:fs-general@berkeley.edu">fs-general@berkeley.edu</a></span>' +
               "<span>Maintenance, repairs, and custodial services</span></li>" +
           "</ul>" +
-        "</section>" +
+        "</details>" +
       "</div>" +
       '<div class="footer-base">' +
         "<span>Cal Zero Waste Gateway team · UC Berkeley Facilities Services</span>" +
@@ -108,6 +109,22 @@
     "</div>";
 
   body.appendChild(footer);
+
+  /* Long sections fold on phones; open them (and lock them open) on wider screens. */
+  var wide = window.matchMedia("(min-width: 768px)");
+  function syncFolds() {
+    document.querySelectorAll("details[data-open-desktop]").forEach(function (el) {
+      var summary = el.querySelector("summary");
+      if (wide.matches) {
+        el.open = true;
+        summary.setAttribute("tabindex", "-1");
+      } else {
+        summary.removeAttribute("tabindex");
+      }
+    });
+  }
+  syncFolds();
+  if (wide.addEventListener) wide.addEventListener("change", syncFolds);
 
   /* Shared helpers for chart pages. Charts load plotly.js from a CDN only on
      pages that call GW.chart(). */
