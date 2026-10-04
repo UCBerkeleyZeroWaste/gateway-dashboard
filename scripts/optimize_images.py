@@ -12,10 +12,10 @@ OUT = ROOT / "docs" / "assets" / "img"
 
 # source file -> (output name, widths to generate)
 IMAGES = {
-    "images/Home_Hero.jpg": ("home-hero", [800, 1600]),
+    "images/gateway_home_hero_atrium.jpg": ("home-hero-atrium", [547]),
     "images/Construction.jpg": ("card-construction", [400]),
     "images/Building.jpg": ("card-building", [400]),
-    "images/Reuse.jpg": ("card-reuse", [400]),
+    "images/card_reuse_station.jpg": ("card-reuse-station", [400]),
     "images/Circular_Purchasing.jpg": ("card-purchasing", [400]),
     "images/gateway_circular_purchasing_hero.jpg": ("purchasing-hero", [740]),
     "images/Recovery.jpg": ("card-recovery", [400]),
@@ -27,9 +27,12 @@ IMAGES = {
     "images/gateway_building_systems_hero.jpg": ("building-hero", [800, 1536]),
     "images/gateway_reuse_hero.jpeg": ("reuse-hero", [800, 1600]),
     "Figures/gateway_reuse_station_2nd_floor.jpg": ("reuse-station", [600]),
-    "Figures/gateway_reusables_set.jpg": ("reusables-set", [600]),
+    "Figures/gateway_reusables_kitchen_shelf.jpg": ("reusables-shelf", [700]),
     "images/gateway_recovery_hero.jpg": ("recovery-hero", [720]),
     "Figures/gateway_mill.jpg": ("mill", [800]),
+    "Figures/gateway_compost_mill_scraps.jpg": ("compost", [400]),
+    "Figures/gateway_battery_bin.jpg": ("batteries", [400]),
+    "Figures/gateway_ewaste_bin.jpg": ("ewaste", [400]),
 }
 
 QUALITY = 72

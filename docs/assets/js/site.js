@@ -126,6 +126,22 @@
   syncFolds();
   if (wide.addEventListener) wide.addEventListener("change", syncFolds);
 
+  /* Outside links (the Manual, Catalog, forms, sources) and PDFs open in a
+     new tab, so people keep their place on this site. */
+  document.querySelectorAll('a[href^="http"], a[href$=".pdf"]').forEach(function (a) {
+    if (a.hostname && a.hostname !== location.hostname || /\.pdf$/i.test(a.pathname)) {
+      if (a.target === "_blank") return;
+      a.target = "_blank";
+      a.rel = "noopener";
+      if (!/new tab/.test(a.textContent)) {
+        var note = document.createElement("span");
+        note.className = "sr-only";
+        note.textContent = " (opens in a new tab)";
+        a.appendChild(note);
+      }
+    }
+  });
+
   /* Shared helpers for chart pages. Charts load plotly.js from a CDN only on
      pages that call GW.chart(). */
   window.GW = {
