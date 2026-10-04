@@ -24,6 +24,9 @@ IMAGES = {
     "Figures/salvaged_tree_furniture.png": ("tree-to-table", [733]),
     "Figures/bobcat_t7x_gateway.jpg": ("bobcat-t7x", [800]),
     "images/gateway_building_systems_hero.jpg": ("building-hero", [800, 1536]),
+    "images/gateway_reuse_hero.jpeg": ("reuse-hero", [800, 1600]),
+    "Figures/gateway_reuse_station.png": ("reuse-station", [537]),
+    "Figures/gateway_reusables_set.jpg": ("reusables-set", [600]),
 }
 
 QUALITY = 72

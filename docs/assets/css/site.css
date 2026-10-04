@@ -436,3 +436,26 @@ p { margin: 0 0 0.85rem; }
 .equation { font-weight: 600; color: var(--ink-strong); font-size: 1.02rem; }
 .callout-grid { display: grid; gap: 0 1rem; }
 @media (min-width: 900px) { .callout-grid { grid-template-columns: 1fr 1fr; } }
+
+/* ---------- Step indicator (Reuse / Refill / Reorder) ---------- */
+
+.steps { list-style: none; margin: 0.75rem 0 0.5rem; padding: 0; display: flex; align-items: flex-start; position: relative; z-index: 0; }
+.steps li { flex: 1; text-align: center; position: relative; font-weight: 600; font-size: 0.92rem; color: var(--ink-muted); }
+.steps li::before {
+  content: attr(data-n); display: grid; place-items: center; margin: 0 auto 0.4rem;
+  width: 44px; height: 44px; border-radius: 50%; background: var(--surface);
+  border: 2px solid var(--line); color: var(--ink-muted); font-weight: 700; font-size: 1.05rem;
+}
+.steps li + li::after {
+  content: ""; position: absolute; top: 22px; right: 50%; width: 100%; height: 2px;
+  background: var(--line); z-index: -1;
+}
+.steps li.is-here { color: var(--green); }
+.steps li.is-here::before { background: var(--green); border-color: var(--green); color: var(--white); }
+.steps a { color: inherit; }
+.here-note { font-size: 0.9rem; color: var(--ink-muted); }
+.kit { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+@media (min-width: 900px) { .kit { grid-template-columns: repeat(4, 1fr); gap: 0.9rem; } }
+.kit li { background: var(--surface); border-radius: var(--radius); padding: 0.75rem 0.85rem; }
+.kit .metric-value { font-size: clamp(1.25rem, 4.6vw, 1.6rem); }
+.motto { font-size: 1.15rem; font-weight: 700; color: var(--green); margin-bottom: 0.6rem; }
