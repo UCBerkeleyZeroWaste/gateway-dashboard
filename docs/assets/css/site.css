@@ -586,3 +586,4 @@ p { margin: 0 0 0.85rem; }
 .quick strong { color: #0B6E4F; font-size: 1rem; }
 .quick span { font-size: 0.85rem; color: #5E6878; line-height: 1.35; }
 .quick:hover, .quick:focus-visible { background: #E8F3EC; }
+.bin-paper { --bin: #2F5F98; }
