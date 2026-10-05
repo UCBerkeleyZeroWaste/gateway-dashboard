@@ -53,3 +53,10 @@
     return Number(value).toLocaleString("en-US", { minimumFractionDigits: digits || 0, maximumFractionDigits: digits || 0 });
   };
 })();
+
+// Charts inside a fold are drawn while hidden; resize them when the fold opens.
+document.querySelectorAll("details.chart-fold").forEach(function (d) {
+  d.addEventListener("toggle", function () {
+    if (d.open && window.Plotly) d.querySelectorAll(".chart").forEach(function (el) { if (el.data) window.Plotly.Plots.resize(el); });
+  });
+});

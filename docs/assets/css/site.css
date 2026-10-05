@@ -577,3 +577,12 @@ p { margin: 0 0 0.85rem; }
 @media (min-width: 1024px) { .panel-grid-3 { grid-template-columns: repeat(3, 1fr); } }
 .pathway .pathway-photo { aspect-ratio: 3 / 2; margin-bottom: 0.8rem; }
 @media (max-width: 639px) { .pathway .pathway-photo { aspect-ratio: 3 / 1; } }
+
+/* Home: Start here quick actions */
+.section-tight { padding-top: 1.25rem; }
+.quick-grid { list-style: none; margin: 0.75rem 0 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+@media (min-width: 768px) { .quick-grid { grid-template-columns: repeat(4, 1fr); } }
+.quick { display: flex; flex-direction: column; gap: 0.2rem; height: 100%; padding: 0.8rem 0.9rem; border: 1px solid var(--line); border-left: 4px solid #0B6E4F; border-radius: 10px; background: #F3F5F2; color: #343743; text-decoration: none; }
+.quick strong { color: #0B6E4F; font-size: 1rem; }
+.quick span { font-size: 0.85rem; color: #5E6878; line-height: 1.35; }
+.quick:hover, .quick:focus-visible { background: #E8F3EC; }

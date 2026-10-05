@@ -53,3 +53,4 @@ if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
     for src, (name, widths) in IMAGES.items():
         export(src, name, widths)
+# og image is made by hand: 1200x630 centre crop of images/Home_Hero.jpg (docs/assets/img/home-hero-og.jpg)
