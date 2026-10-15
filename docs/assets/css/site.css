@@ -617,6 +617,3 @@ p { margin: 0 0 0.85rem; }
 .member-bio p { margin: 0 0 0.4rem; }
 .member-bio blockquote { margin: 0.3rem 0 0; padding-left: 0.75rem; border-left: 3px solid #0B6E4F; }
 
-/* Fall training: recording placeholder */
-.training-soon { color: var(--ink-muted); font-style: italic; flex: 0; margin: 0; }
-@media (max-width: 639px) { .resource .training-soon { display: block; font-size: 0.95rem; padding: 0.6rem 0; } }
