@@ -617,3 +617,32 @@ p { margin: 0 0 0.85rem; }
 .member-bio p { margin: 0 0 0.4rem; }
 .member-bio blockquote { margin: 0.3rem 0 0; padding-left: 0.75rem; border-left: 3px solid #0B6E4F; }
 
+
+/* Approved Products Catalog */
+.reuse-box { background: var(--green-tint); border: 1px solid var(--green); border-radius: var(--radius); padding: 1.1rem 1.2rem; }
+.reuse-box h2 { margin-top: 0; }
+.reuse-box p { margin-bottom: 0.6rem; }
+.reuse-chips { list-style: none; margin: 0.4rem 0 0.75rem; padding: 0; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.reuse-chips li { background: var(--white); border: 1px solid var(--green); color: var(--green); border-radius: 999px; padding: 0.25rem 0.7rem; font-size: 0.92rem; font-weight: 600; }
+.reuse-more { margin: 0; font-weight: 600; }
+.tag, .tag-reuse { display: inline-block; font-size: 0.8rem; font-weight: 600; border-radius: 999px; padding: 0.12rem 0.55rem; border: 1px solid var(--line); color: var(--ink-muted); background: var(--surface); white-space: nowrap; }
+.tag-reuse { background: var(--green); border-color: var(--green); color: var(--white); }
+.get-list { list-style: none; margin: 0 0 0.75rem; padding: 0; display: grid; gap: 0.75rem; }
+.get-list p { margin: 0.3rem 0 0; }
+@media (min-width: 768px) { .get-list { grid-template-columns: repeat(3, 1fr); gap: 1rem; } }
+.cat-fold { border-top: 1px solid var(--line); padding: 0.4rem 0; }
+.cat-fold > summary h3 { font-size: 1.1rem; }
+.cat-list { list-style: none; margin: 0.4rem 0 0.6rem; padding: 0; display: grid; gap: 0; }
+@media (min-width: 768px) { .cat-list { grid-template-columns: repeat(2, 1fr); column-gap: 1.5rem; } }
+.cat-item { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.3rem 0.5rem; padding: 0.6rem 0; border-bottom: 1px solid var(--line); }
+.cat-name { font-weight: 600; flex: 1 1 12rem; }
+.cat-brand { font-weight: 400; color: var(--ink-muted); font-size: 0.9rem; }
+.cat-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+.cat-note { flex-basis: 100%; color: var(--ink-muted); font-size: 0.92rem; }
+.cat-sheet { margin-top: 0.75rem; font-size: 0.92rem; }
+.cat-fold > summary { color: var(--ink-strong); }
+@media (min-width: 768px) {
+  .js .keep-summary[data-open-desktop] > summary { display: flex; }
+  .js .keep-summary[data-open-desktop] > summary::after { display: none; }
+  .cat-fold .fold-hint { display: none; }
+}
