@@ -619,9 +619,11 @@ p { margin: 0 0 0.85rem; }
 
 
 /* Approved Products Catalog */
-.reuse-box { background: var(--green-tint); border: 1px solid var(--green); border-radius: var(--radius); padding: 1.1rem 1.2rem; }
-.reuse-box h2 { margin-top: 0; }
-.reuse-box p { margin-bottom: 0.6rem; }
-.reuse-chips { list-style: none; margin: 0.4rem 0 0.75rem; padding: 0; display: flex; flex-wrap: wrap; gap: 0.4rem; }
-.reuse-chips li { background: var(--white); border: 1px solid var(--green); color: var(--green); border-radius: 999px; padding: 0.25rem 0.7rem; font-size: 0.92rem; font-weight: 600; }
-.reuse-more { margin: 0; font-weight: 600; }
+.cat-cols { display: grid; gap: 1rem; }
+@media (min-width: 768px) { .cat-cols { grid-template-columns: 1fr 1fr; } }
+.cat-col { border: 1px solid var(--line); border-radius: var(--radius); padding: 1.1rem 1.2rem; }
+.cat-col-reuse { background: var(--green-tint); border-color: var(--green); }
+.cat-col h3 { margin-top: 0; }
+.cat-col-sub { color: var(--ink-muted); font-size: 0.95rem; margin-bottom: 0.75rem; }
+.cat-col-link { margin: 0.85rem 0 0; font-size: 0.95rem; }
+.cat-col-reuse .cat-col-link { font-weight: 600; }
