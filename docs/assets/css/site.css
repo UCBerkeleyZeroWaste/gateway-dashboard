@@ -619,11 +619,25 @@ p { margin: 0 0 0.85rem; }
 
 
 /* Approved Products Catalog */
-.cat-cols { display: grid; gap: 1rem; }
-@media (min-width: 768px) { .cat-cols { grid-template-columns: 1fr 1fr; } }
-.cat-col { border: 1px solid var(--line); border-radius: var(--radius); padding: 1.1rem 1.2rem; }
-.cat-col-reuse { background: var(--green-tint); border-color: var(--green); }
-.cat-col h3 { margin-top: 0; }
-.cat-col-sub { color: var(--ink-muted); font-size: 0.95rem; margin-bottom: 0.75rem; }
-.cat-col-link { margin: 0.85rem 0 0; font-size: 0.95rem; }
-.cat-col-reuse .cat-col-link { font-weight: 600; }
+.reuse-box { background: var(--green-tint); border: 1px solid var(--green); border-radius: var(--radius); padding: 1.1rem 1.2rem; }
+.reuse-box h2 { margin-top: 0; }
+.reuse-box p { margin-bottom: 0.6rem; }
+.reuse-chips { list-style: none; margin: 0.4rem 0 0.75rem; padding: 0; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.reuse-chips li { background: var(--white); border: 1px solid var(--green); color: var(--green); border-radius: 999px; padding: 0.25rem 0.7rem; font-size: 0.92rem; font-weight: 600; }
+.reuse-more { margin: 0; font-weight: 600; }
+.epp-top-label { font-weight: 600; margin: 0.75rem 0 0; }
+.epp-top li { background: var(--surface); border-color: var(--line); color: var(--ink-strong); }
+.epp-folds { border-bottom: 1px solid var(--line); margin-top: 0.5rem; }
+.epp-fold { border-top: 1px solid var(--line); padding: 0.35rem 0; margin: 0; }
+.epp-fold > summary { color: var(--ink-strong); margin-bottom: 0; }
+.epp-fold > summary h3 { font-size: 1.1rem; }
+.epp-fold[open] > summary { margin-bottom: 0.4rem; }
+.epp-list { list-style: none; margin: 0 0 0.5rem; padding: 0; }
+@media (min-width: 768px) { .epp-list { display: grid; grid-template-columns: 1fr 1fr; column-gap: 1.5rem; } }
+.epp-list li { padding: 0.5rem 0; border-bottom: 1px solid var(--line); display: flex; flex-direction: column; gap: 0.1rem; }
+.epp-list li:last-child { border-bottom: 0; }
+.epp-name { font-weight: 600; font-size: 0.97rem; }
+.epp-brand { font-weight: 400; color: var(--ink-muted); }
+.epp-meta { font-size: 0.86rem; color: var(--ink-muted); }
+.epp-note { color: var(--ink-muted); font-size: 0.95rem; margin: 0.75rem 0; }
+.epp-fold .callout { margin: 0.5rem 0 0.75rem; }
