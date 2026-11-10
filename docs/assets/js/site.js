@@ -83,9 +83,9 @@
       '<div class="involved">' +
         '<section aria-labelledby="get-involved">' +
           '<h2 id="get-involved">Get involved</h2>' +
-          "<p>Questions, comments, or concerns about zero waste at Gateway? Tell us in our short survey.</p>" +
-          "<p>Curious about being your department's Green Team Representative? Let us know. No commitment.</p>" +
-          '<a class="btn" href="' + LINKS.survey + '">Take the survey<span class="sr-only"> (Google Form)</span></a>' +
+          "<p>Get Gateway sustainability updates by email, and tell us what would make zero waste easier.</p>" +
+          '<a class="btn" href="' + LINKS.survey + '">Sign up for updates &amp; share feedback<span class="sr-only"> (Google Form)</span></a>' +
+          '<p class="footer-note">Want to be your department\'s Green Team Representative? Say so in the form.</p>' +
         "</section>" +
         '<details class="fold" data-open-desktop>' +
           '<summary><h2 id="contacts">Who to contact</h2></summary>' +

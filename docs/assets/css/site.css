@@ -641,3 +641,6 @@ p { margin: 0 0 0.85rem; }
 .epp-meta { font-size: 0.86rem; color: var(--ink-muted); }
 .epp-note { color: var(--ink-muted); font-size: 0.95rem; margin: 0.75rem 0; }
 .epp-fold .callout { margin: 0.5rem 0 0.75rem; }
+
+/* Footer: Green Team note under the sign-up button */
+.site-footer .footer-note { margin: 0.85rem 0 0; font-size: 0.92rem; opacity: 0.9; }
