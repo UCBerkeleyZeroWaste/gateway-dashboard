@@ -669,3 +669,11 @@ p { margin: 0 0 0.85rem; }
   .cards-5 .card-system .btn::before { content: ""; position: absolute; inset: 0; }
   .cards-5 .card-system:focus-within { outline: 2px solid var(--green); outline-offset: 2px; }
 }
+
+/* Catering: approved caterers with order links */
+.caterer-rows { list-style: none; margin: 0.5rem 0 0; padding: 0; display: grid; gap: 0.5rem; }
+@media (min-width: 768px) { .caterer-rows { grid-template-columns: 1fr 1fr; gap: 0.6rem 1rem; } }
+.caterer-rows li { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; padding: 0.7rem 0.9rem; border: 1px solid var(--line); border-left: 4px solid var(--green); border-radius: 10px; background: var(--surface); }
+.caterer-name { font-weight: 600; }
+.caterer-order { font-weight: 600; font-size: 0.92rem; white-space: nowrap; }
+.caterer-order::after { content: " \2192"; }
