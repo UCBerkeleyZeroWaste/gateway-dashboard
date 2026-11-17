@@ -542,7 +542,7 @@ p { margin: 0 0 0.85rem; }
 .bin-compost { --bin: #0B6E4F; }
 .bin-recycle { --bin: #2F5F98; }
 .bin-landfill { --bin: #343743; }
-.bin-dispatch { --bin: #5E6878; }
+.bin-dispatch { --bin: #FF6B00; }
 .bin-name { display: flex; align-items: center; flex-wrap: wrap; gap: 0.45rem; font-weight: 700; font-size: 1.08rem; color: var(--ink-strong); margin-bottom: 0.5rem; }
 .bin-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--bin); flex: none; }
 .bin-color { font-size: 0.82rem; font-weight: 600; color: var(--ink-muted); }
