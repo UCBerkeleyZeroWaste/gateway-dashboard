@@ -677,3 +677,4 @@ p { margin: 0 0 0.85rem; }
 .caterer-name { font-weight: 600; }
 .caterer-order { font-weight: 600; font-size: 0.92rem; white-space: nowrap; }
 .caterer-order::after { content: " \2192"; }
+.caterer-pending li { border-left-color: var(--line); }
